@@ -36,6 +36,8 @@ def treat_from_file(filename):
 
     for cle in cle128_list:
         print(cle)
+        
+    return cle128_list
 
 
 if __name__ == "__main__":
