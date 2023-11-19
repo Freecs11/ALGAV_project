@@ -135,3 +135,77 @@ heap_ex.print_heap() # 10 10 14 27 26 33 19 42 44 35 31
 
 print("min : " +str(heap_ex._suppmin()) + "\n\n") # 10
 heap_ex.print_heap() # 10 26 14 27 31 33 19 42 44 35
+
+
+class MinHeapTable :
+    def __init__(self):
+        self.heap = []
+        self.size = 0
+
+    def ajout(self, value):
+        self.heap.append(value)
+        self.size += 1
+        self._heapify_up(self.size - 1)
+
+    def _heapify_up(self, index):
+        while index != 0 and self.heap[self._parent(index)] > self.heap[index]:
+            self._swap(index, self._parent(index))
+            index = self._parent(index)
+
+    def _heapify_down(self, index):
+        while self._left(index) < self.size:
+            if self._right(index) < self.size:
+                if self.heap[self._left(index)] < self.heap[self._right(index)]:
+                    if self.heap[index] > self.heap[self._left(index)]:
+                        self._swap(index, self._left(index))
+                        index = self._left(index)
+                    else:
+                        break
+                else:
+                    if self.heap[index] > self.heap[self._right(index)]:
+                        self._swap(index, self._right(index))
+                        index = self._right(index)
+                    else:
+                        break
+            else:
+                if self.heap[index] > self.heap[self._left(index)]:
+                    self._swap(index, self._left(index))
+                    index = self._left(index)
+                else:
+                    break
+
+    def _suppmin(self):
+        if self.size == 0:
+            return None
+        else:
+            self._swap(0, self.size - 1)
+            self.size -= 1
+            self._heapify_down(0)
+            return self.heap.pop()
+
+    def _parent(self, index):
+        return (index - 1) // 2
+
+    def _left(self, index):
+        return 2 * index + 1
+
+    def _right(self, index):
+        return 2 * index + 2
+    
+    def ajout_iteratif(self, list_values):
+        for value in list_values:
+            self.ajout(value)
+
+    def _swap(self, index1, index2):
+        self.heap[index1], self.heap[index2] = self.heap[index2], self.heap[index1]
+
+    def print_heap(self):
+        print(self.heap)
+        
+
+heap_ex = MinHeapTable()
+heap_ex.ajout_iteratif([10, 35, 33, 42, 10, 14, 19, 27, 44, 26, 31])
+print("final : \n" )
+heap_ex.print_heap()
+print("min : " +str(heap_ex._suppmin()) + "\n") # 10
+heap_ex.print_heap() # 10 26 14 27 31 33 19 42 44 35
