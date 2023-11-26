@@ -11,8 +11,17 @@ def generate_key():
 def inf(cle1 , cle2):
     return np.less(cle1['key1'], cle2['key1']) | (np.equal(cle1['key1'], cle2['key1']) & np.less(cle1['key2'], cle2['key2']))
 
+def sup(cle1, cle2):
+    return np.greater(cle1['key1'], cle2['key1']) | (np.equal(cle1['key1'], cle2['key1']) & np.greater(cle1['key2'], cle2['key2']))
+
 def eg(cle1, cle2):
     return np.equal(cle1['key1'], cle2['key1']) & np.equal(cle1['key2'], cle2['key2'])
+
+def infegal(cle1, cle2):
+    return eg(cle1, cle2) | inf(cle1, cle2)
+
+def supegal(cle1, cle2):
+    return eg(cle1, cle2) | sup(cle1, cle2)
 
 
 def treat_from_file(filename):
@@ -34,8 +43,8 @@ def treat_from_file(filename):
             cle = np.array((key1, key2), dtype=cle128)
             cle128_list.append(cle)
 
-    for cle in cle128_list:
-        print(cle)
+    # for cle in cle128_list:
+    #     print(cle)
         
     return cle128_list
 
