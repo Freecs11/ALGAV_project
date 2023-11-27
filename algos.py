@@ -51,17 +51,17 @@ class MinHeapBinaryTree:
             node = node.parent
 
     def _heapify_down(self, node):
-        if node is not None:
+        while node is not None:
             min_node = node
-            if node.left is not None and st.inf(node.left.value , node.value):
+            if node.left is not None and st.inf(node.left.value , min_node.value):
                 min_node = node.left
-                self._swap(node, min_node)
-                self._heapify_down(min_node)
             if node.right is not None and st.inf(node.right.value , min_node.value):
                 min_node = node.right
+            if min_node != node:
                 self._swap(node, min_node)
-                self._heapify_down(min_node)
-
+                node = min_node
+            else:
+                break
     def _swap(self, node1, node2):
         node1.value, node2.value = node2.value, node1.value
 
@@ -106,6 +106,23 @@ class MinHeapBinaryTree:
             print()
             self._print_heap(root.left)
             self._print_heap(root.right)
+    
+    def verify_min_heap_property(self):
+        if self.root is None:
+            return True
+        return self._verify_min_heap_property(self.root)
+    
+    def _verify_min_heap_property(self, node):
+        if node is None:
+            return True
+        if node.left is not None and st.sup(node.value , node.left.value):
+            # print("node 2: " + str(node.value) + " left : " + str(node.left.value)) 
+            return False
+        if node.right is not None and st.sup(node.value , node.right.value):
+            # print ("node 2: " + str(node.value) + " right : " + str(node.right.value))
+            return False
+        return self._verify_min_heap_property(node.left) and self._verify_min_heap_property(node.right)
+    
 
 
 
@@ -120,8 +137,11 @@ exem.ajout_iteratif(listofvalues)
 # exem.print_heap()
 
 print("min tree : " +str(exem.suppmin()) + "\n\n") 
+print("last element : " + str(exem.root.deepest.value) + "\n\n")
 print("new min tree : " +str(exem.suppmin()) + "\n\n")
 print("new min tree : " +str(exem.suppmin()) + "\n\n")
+
+print("verify min heap property : " + str(exem.verify_min_heap_property()) + "\n\n")
 
 class MinHeapTable:
     def __init__(self):
@@ -200,15 +220,29 @@ class MinHeapTable:
     
     def print_heap(self):
         for i in range(0, self.size):
-            print(self.heap[i], end=" \n")             
+            print(self.heap[i], end=" \n")      
+            
+    def verify_min_heap_property(self):
+        for pos in range((self.size // 2)-1 , -1, -1):
+            if pos == 0:
+                return True
+            if not self.isLeaf(pos):
+                if st.sup(self.heap[pos] , self.heap[self.leftChild(pos)]):
+                    return False
+                if st.sup(self.heap[pos] , self.heap[self.rightChild(pos)]):
+                    return False
+        return True
     
         
 heap_ex = MinHeapTable()
 heap_ex._ajout_iteratif(listofvalues)
 print("min table : " +str(heap_ex._suppmin()) + "\n\n")
+print("last element : " + str(heap_ex.heap[-1]) + "\n\n")
 # heap_ex.print_heap()
 print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
 print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
+
+print("verify min heap property : " + str(heap_ex.verify_min_heap_property()) + "\n\n")
 
 
 # (13784548702449909963, 17644899806406222366)
@@ -275,18 +309,18 @@ def Union2 (heap1:MinHeapBinaryTree , heap2:MinHeapBinaryTree, _class = MinHeapB
         heap2.suppmin()
     return heap
 
-heap1 = build_heap_table(listofvalues)
-l = st.treat_from_file("cles_alea/jeu_5_nb_cles_1000.txt")
-heap2 = build_heap_table(l)
-heap3 = Union(heap1, heap2)
-heap3.print_heap()
-print("len heap1 : " + str(heap1.size) + "\n\n")
-print("len heap2 : " + str(heap2.size) + "\n\n")
-print("len heap3 : " + str(heap3.size) + " should be : " + str(heap1.size + heap2.size) + "\n\n") 
-print("min heap2: " +str(heap2._suppmin()) + "\n\n")
-print("min heap1: " +str(heap1._suppmin()) + "\n\n")
+# heap1 = build_heap_table(listofvalues)
+# l = st.treat_from_file("cles_alea/jeu_5_nb_cles_1000.txt")
+# heap2 = build_heap_table(l)
+# heap3 = Union(heap1, heap2)
+# heap3.print_heap()
+# print("len heap1 : " + str(heap1.size) + "\n\n")
+# print("len heap2 : " + str(heap2.size) + "\n\n")
+# print("len heap3 : " + str(heap3.size) + " should be : " + str(heap1.size + heap2.size) + "\n\n") 
+# print("min heap2: " +str(heap2._suppmin()) + "\n\n")
+# print("min heap1: " +str(heap1._suppmin()) + "\n\n")
 
-print("min heap3: " +str(heap3._suppmin()) + "\n\n")
+# print("min heap3: " +str(heap3._suppmin()) + "\n\n")
 
 
 
