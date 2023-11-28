@@ -286,28 +286,6 @@ def build_heap_table(keys):
     heap.minHeap()
     return heap
 
-# je ne vois pas comment faire un build_heap_tree sans avoir une fonction qui permet de
-# construire un arbre à partir d'une liste de valeurs ce qui revient à faire un ajout itératif
-# def build_heap_tree(keys):
-#     def build_tree(keys , parent):
-#         if len(keys) == 0:
-#             return None
-#         if len(keys) == 1:
-#             return MinHeapNode(keys[0])
-#         else :
-#             node = MinHeapNode(keys[0])
-#             node.parent = parent
-#             half = len(keys) // 2
-#             node.left = build_tree(keys[1:half], node)
-#             node.right = build_tree(keys[half:-1], node)
-#             return node
-#     heap = MinHeapBinaryTree()
-#     heap.root = build_tree(keys, None)
-#     heap.size = len(keys)
-#     # heapify the tree
-#     heap.minHeap()
-#     return heap
-
 # Start from the middle of the array and process all elements in left direction using _heapify_down.
 # Since we're starting from the middle, we're guaranteed to have children for all nodes and
 # we don't need to check for children while calling _heapify_down.
@@ -317,9 +295,7 @@ def build_heap_tree(keys):
     nodes = [MinHeapNode(key) for key in keys]
     heap = MinHeapBinaryTree()
     heap.root = nodes[0]
-    
     heap.size = len(keys)
-
     # Link parents and children using the list of nodes and adjust the height and the deepest node
     for i in range(len(nodes)):
         if 2*i+1 < len(nodes):
@@ -332,12 +308,9 @@ def build_heap_tree(keys):
             nodes[2*i+2].parent = nodes[i]
             nodes[2*i+2].hight = nodes[i].hight + 1
             heap.root.deepest = nodes[2*i+2]
-        
-
     # Heapify the tree
     for i in range(len(nodes)//2, -1, -1):
         heap._heapify_down(nodes[i])
-
     return heap
 
 ex2 = build_heap_tree(listofvalues)
