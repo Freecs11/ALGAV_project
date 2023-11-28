@@ -9,6 +9,7 @@ class MinHeapNode:
         self.left = None
         self.right = None
         self.parent = None
+        self.hight = 0
         self.deepest = self
 
 class MinHeapBinaryTree:
@@ -26,16 +27,17 @@ class MinHeapBinaryTree:
     def _ajout(self, node, new_node):
         if node.left is None:
             new_node.parent = node
+            new_node.hight = node.hight + 1
             node.left = new_node
             self.root.deepest = new_node
             self._heapify(new_node)
         elif node.right is None:
             new_node.parent = node
+            new_node.hight = node.hight + 1
             node.right = new_node
             self.root.deepest = new_node
             self._heapify(new_node)
         else:
-            # NO COMPLETED attribute available
             if node.left.left is None or node.left.right is None:
                 self._ajout(node.left, new_node)
             elif node.right.left is None or node.right.right is None:
@@ -62,6 +64,21 @@ class MinHeapBinaryTree:
                 node = min_node
             else:
                 break
+    
+    def minHeap(self) : 
+        if self.root is None:
+            return None
+        self._minHeap(self.root)
+        
+    def _minHeap(self, node):
+        if node is None:
+            return None
+        self._minHeap(node.left)
+        self._minHeap(node.right)
+        self._heapify_down(node)
+        
+        
+    
     def _swap(self, node1, node2):
         node1.value, node2.value = node2.value, node1.value
 
@@ -133,15 +150,15 @@ class MinHeapBinaryTree:
 
 exem = MinHeapBinaryTree()
 listofvalues = st.treat_from_file("cles_alea/jeu_1_nb_cles_1000.txt")
-exem.ajout_iteratif(listofvalues)
-# exem.print_heap()
+# exem.ajout_iteratif(listofvalues)
+# # exem.print_heap()
 
-print("min tree : " +str(exem.suppmin()) + "\n\n") 
-print("last element : " + str(exem.root.deepest.value) + "\n\n")
-print("new min tree : " +str(exem.suppmin()) + "\n\n")
-print("new min tree : " +str(exem.suppmin()) + "\n\n")
+# print("min tree : " +str(exem.suppmin()) + "\n\n") 
+# print("last element : " + str(exem.root.deepest.value) + "\n\n")
+# print("new min tree : " +str(exem.suppmin()) + "\n\n")
+# print("new min tree : " +str(exem.suppmin()) + "\n\n")
 
-print("verify min heap property : " + str(exem.verify_min_heap_property()) + "\n\n")
+# print("verify min heap property : " + str(exem.verify_min_heap_property()) + "\n\n")
 
 class MinHeapTable:
     def __init__(self):
@@ -237,12 +254,12 @@ class MinHeapTable:
 heap_ex = MinHeapTable()
 heap_ex._ajout_iteratif(listofvalues)
 print("min table : " +str(heap_ex._suppmin()) + "\n\n")
-print("last element : " + str(heap_ex.heap[-1]) + "\n\n")
-# heap_ex.print_heap()
+# print("last element : " + str(heap_ex.heap[-1]) + "\n\n")
+# # heap_ex.print_heap()
 print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
-print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
+# print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
 
-print("verify min heap property : " + str(heap_ex.verify_min_heap_property()) + "\n\n")
+# print("verify min heap property : " + str(heap_ex.verify_min_heap_property()) + "\n\n")
 
 
 # (13784548702449909963, 17644899806406222366)
@@ -271,11 +288,66 @@ def build_heap_table(keys):
 
 # je ne vois pas comment faire un build_heap_tree sans avoir une fonction qui permet de
 # construire un arbre à partir d'une liste de valeurs ce qui revient à faire un ajout itératif
+# def build_heap_tree(keys):
+#     def build_tree(keys , parent):
+#         if len(keys) == 0:
+#             return None
+#         if len(keys) == 1:
+#             return MinHeapNode(keys[0])
+#         else :
+#             node = MinHeapNode(keys[0])
+#             node.parent = parent
+#             half = len(keys) // 2
+#             node.left = build_tree(keys[1:half], node)
+#             node.right = build_tree(keys[half:-1], node)
+#             return node
+#     heap = MinHeapBinaryTree()
+#     heap.root = build_tree(keys, None)
+#     heap.size = len(keys)
+#     # heapify the tree
+#     heap.minHeap()
+#     return heap
+
+# Start from the middle of the array and process all elements in left direction using _heapify_down.
+# Since we're starting from the middle, we're guaranteed to have children for all nodes and
+# we don't need to check for children while calling _heapify_down.
+# Repeat the above step for all elements in the array.
 def build_heap_tree(keys):
+    # Create nodes for each key
+    nodes = [MinHeapNode(key) for key in keys]
     heap = MinHeapBinaryTree()
-    heap.ajout_iteratif(keys)
-    return heap
+    heap.root = nodes[0]
     
+    heap.size = len(keys)
+
+    # Link parents and children using the list of nodes and adjust the height and the deepest node
+    for i in range(len(nodes)):
+        if 2*i+1 < len(nodes):
+            nodes[i].left = nodes[2*i+1]
+            nodes[2*i+1].parent = nodes[i]
+            nodes[2*i+1].hight = nodes[i].hight + 1
+            heap.root.deepest = nodes[2*i+1]
+        if 2*i+2 < len(nodes):
+            nodes[i].right = nodes[2*i+2]
+            nodes[2*i+2].parent = nodes[i]
+            nodes[2*i+2].hight = nodes[i].hight + 1
+            heap.root.deepest = nodes[2*i+2]
+        
+
+    # Heapify the tree
+    for i in range(len(nodes)//2, -1, -1):
+        heap._heapify_down(nodes[i])
+
+    return heap
+
+ex2 = build_heap_tree(listofvalues)
+# ex2.print_heap()
+print("min tree of build tree : " +str(ex2.suppmin()) + "\n\n")
+print("min tree of build tree : " +str(ex2.suppmin()) + "\n\n")
+print("property : " + str(ex2.verify_min_heap_property()) + "\n\n")
+# ex2.suppmin()
+# ex2.print_heap()
+
 
 
 ex = build_heap_table(listofvalues)
