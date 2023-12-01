@@ -9,6 +9,7 @@ class MinHeapNode:
         self.left = None
         self.right = None
         self.parent = None
+        self.height = 0
         self.deepest = self
 
 class MinHeapBinaryTree:
@@ -26,22 +27,21 @@ class MinHeapBinaryTree:
     def _ajout(self, node, new_node):
         if node.left is None:
             new_node.parent = node
+            new_node.height = node.height + 1
             node.left = new_node
             self.root.deepest = new_node
             self._heapify(new_node)
         elif node.right is None:
             new_node.parent = node
+            new_node.height = node.height + 1
             node.right = new_node
             self.root.deepest = new_node
             self._heapify(new_node)
         else:
-            # NO COMPLETED attribute available
-            if node.left.left is None or node.left.right is None:
+            if node.left.height <= node.right.height:
                 self._ajout(node.left, new_node)
-            elif node.right.left is None or node.right.right is None:
-                self._ajout(node.right, new_node)
             else:
-                self._ajout(node.left, new_node)
+                self._ajout(node.right, new_node)
         
         
 
@@ -62,8 +62,27 @@ class MinHeapBinaryTree:
                 node = min_node
             else:
                 break
+    
+    def minHeap(self) : 
+        if self.root is None:
+            return None
+        self._minHeap(self.root)
+        
+    def _minHeap(self, node):
+        if node is None:
+            return None
+        self._minHeap(node.left)
+        self._minHeap(node.right)
+        self._heapify_down(node)
+        
+        
+    
     def _swap(self, node1, node2):
+        nodeheight1 = node1.height
+        nodeheight2 = node2.height
         node1.value, node2.value = node2.value, node1.value
+        node1.height = nodeheight2
+        node2.height = nodeheight1
 
     def suppmin(self):
         if self.root is None:
@@ -133,15 +152,18 @@ class MinHeapBinaryTree:
 
 exem = MinHeapBinaryTree()
 listofvalues = st.treat_from_file("cles_alea/jeu_1_nb_cles_1000.txt")
-exem.ajout_iteratif(listofvalues)
-# exem.print_heap()
+# listofvalues2 = st.treat_from_file("cles_alea/jeu_2_nb_cles_1000.txt")
+# exem.ajout_iteratif(listofvalues)
+# # exem.print_heap()
 
-print("min tree : " +str(exem.suppmin()) + "\n\n") 
-print("last element : " + str(exem.root.deepest.value) + "\n\n")
-print("new min tree : " +str(exem.suppmin()) + "\n\n")
-print("new min tree : " +str(exem.suppmin()) + "\n\n")
 
-print("verify min heap property : " + str(exem.verify_min_heap_property()) + "\n\n")
+
+# print("min tree : " +str(exem.suppmin()) + "\n\n") 
+# # print("last element : " + str(exem.root.deepest.value) + "\n\n")
+# print("new min tree : " +str(exem.suppmin()) + "\n\n")
+
+
+# print("verify min heap property : " + str(exem.verify_min_heap_property()) + "\n\n")
 
 class MinHeapTable:
     def __init__(self):
@@ -234,15 +256,15 @@ class MinHeapTable:
         return True
     
         
-heap_ex = MinHeapTable()
-heap_ex._ajout_iteratif(listofvalues)
-print("min table : " +str(heap_ex._suppmin()) + "\n\n")
-print("last element : " + str(heap_ex.heap[-1]) + "\n\n")
-# heap_ex.print_heap()
-print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
-print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
+# heap_ex = MinHeapTable()
+# heap_ex._ajout_iteratif(listofvalues)
+# print("min table : " +str(heap_ex._suppmin()) + "\n\n")
+# # print("last element : " + str(heap_ex.heap[-1]) + "\n\n")
+# # # heap_ex.print_heap()
+# print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
+# print("new min table : " +str(heap_ex._suppmin()) + "\n\n")
 
-print("verify min heap property : " + str(heap_ex.verify_min_heap_property()) + "\n\n")
+# print("verify min heap property : " + str(heap_ex.verify_min_heap_property()) + "\n\n")
 
 
 # (13784548702449909963, 17644899806406222366)
@@ -255,11 +277,11 @@ print("verify min heap property : " + str(heap_ex.verify_min_heap_property()) + 
 # Donner le pseudo code de la fonction avec des explications puis l’implémenter
     # pseudo code
     # build_heap(keys):
-    #    V = tas_vide()
-    #    V.heap = keys
-    #    V.size = length(keys)
-    #    pour i de length(keys) // 2 à 0:
-    #        V._heapify(i)
+    #    V = tas_vide() # on crée un tas vide
+    #    V.heap = keys # on ajoute les clés dans le tas
+    #    V.size = length(keys) # on met à jour la taille du tas
+    #    pour i de length(keys) // 2 à 0: # on parcourt les noeuds non feuilles du tas de la fin vers le début
+    #        V._heapify(i) # on heapify le noeud courant
     #    return V
 def build_heap_table(keys):
     heap = MinHeapTable()
@@ -269,13 +291,62 @@ def build_heap_table(keys):
     heap.minHeap()
     return heap
 
-# je ne vois pas comment faire un build_heap_tree sans avoir une fonction qui permet de
-# construire un arbre à partir d'une liste de valeurs ce qui revient à faire un ajout itératif
+# Start from the middle of the array and process all elements in left direction using _heapify_down.
+# Since we're starting from the middle, we're guaranteed to have children for all nodes and
+# we don't need to check for children while calling _heapify_down.
+# Repeat the above step for all elements in the array.
+# pseudo code
+# build_heap(keys):
+#   noeuds = [MinHeapNode(key) for key in keys] # on crée les noeuds pour chaque clé du tas et on les stocke dans une liste
+#   tas = MinHeapBinaryTree() # on crée un tas vide
+#   tas.root = noeuds[0] # on met le premier noeud de la liste comme racine du tas
+#   tas.size = length(keys) # on met à jour la taille du tas
+#   pour i de 0 à length(keys): # on parcourt les noeuds du tas
+#       si 2*i+1 < length(keys): # si le noeud courant a un fils gauche
+#           noeuds[i].left = noeuds[2*i+1] # on met le fils gauche du noeud courant
+#           noeuds[2*i+1].parent = noeuds[i] # on met le noeud courant comme parent du fils gauche
+#          noeuds[2*i+1].hight = noeuds[i].hight + 1 # on met à jour la hauteur du fils gauche
+#           tas.root.deepest = noeuds[2*i+1] # on met à jour le noeud le plus profond du tas
+#       si 2*i+2 < length(keys): # si le noeud courant a un fils droit
+#           noeuds[i].right = noeuds[2*i+2] # on met le fils droit du noeud courant
+#           noeuds[2*i+2].parent = noeuds[i] # on met le noeud courant comme parent du fils droit
+#           noeuds[2*i+2].hight = noeuds[i].hight + 1 # on met à jour la hauteur du fils droit
+#           tas.root.deepest = noeuds[2*i+2] # on met à jour le noeud le plus profond du tas
+#   pour i de length(keys)//2 à 0: # on parcourt les noeuds non feuilles du tas de la fin vers le début
+#       tas._heapify_down(noeuds[i]) # on heapify le noeud courant
+#   return tas
+
 def build_heap_tree(keys):
+    # Create nodes for each key
+    nodes = [MinHeapNode(key) for key in keys]
     heap = MinHeapBinaryTree()
-    heap.ajout_iteratif(keys)
+    heap.root = nodes[0]
+    heap.size = len(keys)
+    # Link parents and children using the list of nodes and adjust the height and the deepest node
+    for i in range(len(nodes)):
+        if 2*i+1 < len(nodes):
+            nodes[i].left = nodes[2*i+1]
+            nodes[2*i+1].parent = nodes[i]
+            nodes[2*i+1].hight = nodes[i].hight + 1
+            heap.root.deepest = nodes[2*i+1]
+        if 2*i+2 < len(nodes):
+            nodes[i].right = nodes[2*i+2]
+            nodes[2*i+2].parent = nodes[i]
+            nodes[2*i+2].hight = nodes[i].hight + 1
+            heap.root.deepest = nodes[2*i+2]
+    # Heapify the tree
+    for i in range(len(nodes)//2, -1, -1):
+        heap._heapify_down(nodes[i])
     return heap
-    
+
+# ex2 = build_heap_tree(listofvalues)
+# # ex2.print_heap()
+# print("min tree of build tree : " +str(ex2.suppmin()) + "\n\n")
+# print("min tree of build tree : " +str(ex2.suppmin()) + "\n\n")
+# print("property : " + str(ex2.verify_min_heap_property()) + "\n\n")
+# ex2.suppmin()
+# ex2.print_heap()
+
 
 
 ex = build_heap_table(listofvalues)
@@ -292,22 +363,19 @@ def Union (heap1, heap2, _class = MinHeapTable):
     heap.minHeap()
     return heap
 
-def Union2 (heap1:MinHeapBinaryTree , heap2:MinHeapBinaryTree, _class = MinHeapBinaryTree):
-    heap = _class()
-    while heap1.size > 0 and heap2.size > 0:
-        if st.inf(heap1.root.value, heap2.root.value):
-            heap.ajout(heap1.root.value)
-            heap1.suppmin()
-        else:
-            heap.ajout(heap2.root.value)
-            heap2.suppmin()
-    while heap1.size > 0:
-        heap.ajout(heap1.root.value)
-        heap1.suppmin()
-    while heap2.size > 0:
-        heap.ajout(heap2.root.value)
-        heap2.suppmin()
-    return heap
+# je pense qu'on nous demande d'implémenter la fonction Union pour juste une des classes
+# def Union2 (heap1:MinHeapBinaryTree , heap2:MinHeapBinaryTree, _class = MinHeapBinaryTree):
+#     heap = _class()
+#     while heap1.root is not None and heap2.root is not None:
+#         if st.inf(heap1.root.value, heap2.root.value):
+#             heap.ajout(heap1.suppmin())
+#         else:
+#             heap.ajout(heap2.suppmin())
+#     while heap1.root is not None:
+#         heap.ajout(heap1.suppmin())
+#     while heap2.root is not None:
+#         heap.ajout(heap2.suppmin())
+#     return heap
 
 # heap1 = build_heap_table(listofvalues)
 # l = st.treat_from_file("cles_alea/jeu_5_nb_cles_1000.txt")
@@ -326,9 +394,9 @@ def Union2 (heap1:MinHeapBinaryTree , heap2:MinHeapBinaryTree, _class = MinHeapB
 
 
 
-# list_of_sizes = [1000, 5000 ,10000, 20000, 50000, 80000, 120000 ,200000]
+list_of_sizes = [1000, 5000 ,10000, 20000, 50000, 80000, 120000 ,200000]
 
-# def moyenne_temps_construction(list_of_sizes):
+# def moyenne_temps_construction_table(list_of_sizes):
 #     list_of_times = []
 #     for size in list_of_sizes:
 #         list_of_times_for_size = []
@@ -341,13 +409,13 @@ def Union2 (heap1:MinHeapBinaryTree , heap2:MinHeapBinaryTree, _class = MinHeapB
 #         list_of_times.append(np.mean(list_of_times_for_size))
 #     return list_of_times
 
-# list_of_times = moyenne_temps_construction(list_of_sizes)
+# list_of_times = moyenne_temps_construction_table(list_of_sizes)
 # plt.plot(list_of_sizes, list_of_times)
-# plt.xlabel("taille de la lste")
+# plt.xlabel("taille de la liste")
 # plt.ylabel("temps de construction")
-# plt.title("temps de construction en fonction de la taille de la liste")
-# plt.show()
-
+# plt.title("temps de construction_table en fonction de la taille de la liste")
+# # plt.show()
+# plt.savefig("experiments/temps_de_construction_table.png")
 
 # # On remarque que le temps de construction est linéaire en fonction de la taille de la liste
 # # ce qui est cohérent avec la complexité théorique de la fonction build_heap qui est O(n)
@@ -357,14 +425,39 @@ def Union2 (heap1:MinHeapBinaryTree , heap2:MinHeapBinaryTree, _class = MinHeapB
 # # parcourt les noeuds de l'arbre des la fin vers le début et qui effectue des heapify
 # # ce qui prend plus de temps pour les petits arbres que pour les grands arbres
 
-
-# def moyenne_temps_suppression(list_of_sizes):
+# def moyenne_temps_construction_tree(list_of_sizes):
 #     list_of_times = []
 #     for size in list_of_sizes:
 #         list_of_times_for_size = []
 #         for i in range(1,6):
 #             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
-#             heap = build_heap_table(list_of_values)
+#             start_time = time.time()
+#             build_heap_tree(list_of_values)
+#             end_time = time.time()
+#             list_of_times_for_size.append(end_time - start_time)
+#         list_of_times.append(np.mean(list_of_times_for_size))
+#     return list_of_times
+
+# # save it a png with the name "temps_de_construction_tree.png"
+# list_of_times = moyenne_temps_construction_tree(list_of_sizes)
+# # reset the plot
+# plt.clf()
+# plt.plot(list_of_sizes, list_of_times)
+# plt.xlabel("taille de la lste")
+# plt.ylabel("temps de construction")
+# plt.title("temps de construction_tree en fonction de la taille de la liste")
+# # plt.show()
+# plt.savefig("experiments/temps_de_construction_tree.png")
+
+
+# def moyenne_temps_suppression_table(list_of_sizes):
+#     list_of_times = []
+#     for size in list_of_sizes:
+#         list_of_times_for_size = []
+#         for i in range(1,6):
+#             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
+#             heap = MinHeapTable()
+#             heap._ajout_iteratif(list_of_values)
 #             start_time = time.time()
 #             heap._suppmin()
 #             end_time = time.time()
@@ -372,19 +465,93 @@ def Union2 (heap1:MinHeapBinaryTree , heap2:MinHeapBinaryTree, _class = MinHeapB
 #         list_of_times.append(np.mean(list_of_times_for_size))
 #     return list_of_times
 
-# list_of_times = moyenne_temps_suppression(list_of_sizes)
+# list_of_times = moyenne_temps_suppression_table(list_of_sizes)
+# plt.clf()
 # plt.plot(list_of_sizes, list_of_times)
 # plt.xlabel("taille de la lste")
 # plt.ylabel("temps de suppression")
 # plt.title("temps de suppression en fonction de la taille de la liste")
-# plt.show()
+# # plt.show()
+# plt.savefig("experiments/temps_de_suppression_table.png")
 
-
-# def moyenne_temps_union(list_of_sizes):
+# def moyenne_temps_suppression_tree(list_of_sizes):
 #     list_of_times = []
 #     for size in list_of_sizes:
 #         list_of_times_for_size = []
-#         for i in range(1,6 , 2):
+#         for i in range(1,6):
+#             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
+#             heap = MinHeapBinaryTree()
+#             heap.ajout_iteratif(list_of_values)
+#             start_time = time.time()
+#             heap.suppmin()
+#             end_time = time.time()
+#             list_of_times_for_size.append(end_time - start_time)
+#         list_of_times.append(np.mean(list_of_times_for_size))
+#     return list_of_times
+
+# list_of_times = moyenne_temps_suppression_tree(list_of_sizes)
+# plt.clf()
+# plt.plot(list_of_sizes, list_of_times)
+# plt.xlabel("taille de la lste")
+# plt.ylabel("temps de suppression")
+# plt.title("temps de suppression_tree en fonction de la taille de la liste")
+# # plt.show()
+# plt.savefig("experiments/temps_de_suppression_tree.png")
+
+
+
+# def moyenne_temps_ajoutIteratif_table(list_of_sizes):
+#     list_of_times = []
+#     for size in list_of_sizes:
+#         list_of_times_for_size = []
+#         for i in range(1,6):
+#             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
+#             heap = MinHeapTable()
+#             start_time = time.time()
+#             heap._ajout_iteratif(list_of_values)
+#             end_time = time.time()
+#             list_of_times_for_size.append(end_time - start_time)
+#         list_of_times.append(np.mean(list_of_times_for_size))
+#     return list_of_times
+
+# list_of_times = moyenne_temps_ajoutIteratif_table(list_of_sizes)
+# plt.clf()
+# plt.plot(list_of_sizes, list_of_times)
+# plt.xlabel("taille de la lste")
+# plt.ylabel("temps d'ajout")
+# plt.title("temps d'ajout en fonction de la taille de la liste")
+# # plt.show()
+# plt.savefig("experiments/temps_d_ajout_table.png")
+
+# def moyenne_temps_ajoutIteratif_tree(list_of_sizes):
+#     list_of_times = []
+#     for size in list_of_sizes:
+#         list_of_times_for_size = []
+#         for i in range(1,6):
+#             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
+#             heap = MinHeapBinaryTree()
+#             start_time = time.time()
+#             heap.ajout_iteratif(list_of_values)
+#             end_time = time.time()
+#             list_of_times_for_size.append(end_time - start_time)
+#         list_of_times.append(np.mean(list_of_times_for_size))
+#     return list_of_times
+
+# list_of_times = moyenne_temps_ajoutIteratif_tree(list_of_sizes)
+# plt.clf()
+# plt.plot(list_of_sizes, list_of_times)
+# plt.xlabel("taille de la lste")
+# plt.ylabel("temps d'ajout")
+# plt.title("temps d'ajout_tree en fonction de la taille de la liste")
+# # plt.show()
+# plt.savefig("experiments/temps_d_ajout_tree.png")
+
+
+# def moyenne_temps_union_table(list_of_sizes):
+#     list_of_times = []
+#     for size in list_of_sizes:
+#         list_of_times_for_size = []
+#         for i in range(1,5 , 2):
 #             list_of_values1 = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
 #             list_of_values2 = st.treat_from_file("cles_alea/jeu_"+str(i+1)+"_nb_cles_"+str(size)+".txt")
 #             heap1 = build_heap_table(list_of_values1)
@@ -396,34 +563,41 @@ def Union2 (heap1:MinHeapBinaryTree , heap2:MinHeapBinaryTree, _class = MinHeapB
 #         list_of_times.append(np.mean(list_of_times_for_size))
 #     return list_of_times
 
-# list_of_times = moyenne_temps_union(list_of_sizes)
+# list_of_times = moyenne_temps_union_table(list_of_sizes)
+# plt.clf()
 # plt.plot(list_of_sizes, list_of_times)
 # plt.xlabel("taille de la lste")
 # plt.ylabel("temps d'union")
 # plt.title("temps d'union en fonction de la taille de la liste")
-# plt.show()
+# # plt.show()
+# plt.savefig("experiments/temps_d_union_table.png")
 
 
-# def moyenne_temps_ajout(list_of_sizes):
+
+# def moyenne_temps_union_table(list_of_sizes):
 #     list_of_times = []
 #     for size in list_of_sizes:
 #         list_of_times_for_size = []
-#         for i in range(1,6):
-#             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
-#             heap = build_heap_table(list_of_values)
+#         for i in range(1,5 , 2):
+#             list_of_values1 = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
+#             list_of_values2 = st.treat_from_file("cles_alea/jeu_"+str(i+1)+"_nb_cles_"+str(size)+".txt")
+#             heap1 = build_heap_tree(list_of_values1)
+#             heap2 = build_heap_tree(list_of_values2)
 #             start_time = time.time()
-#             heap._ajout_iteratif(list_of_values)
+#             Union2(heap1, heap2)
 #             end_time = time.time()
 #             list_of_times_for_size.append(end_time - start_time)
 #         list_of_times.append(np.mean(list_of_times_for_size))
 #     return list_of_times
 
-# list_of_times = moyenne_temps_ajout(list_of_sizes)
+# list_of_times = moyenne_temps_union_table(list_of_sizes)
+# plt.clf()
 # plt.plot(list_of_sizes, list_of_times)
 # plt.xlabel("taille de la lste")
-# plt.ylabel("temps d'ajout")
-# plt.title("temps d'ajout en fonction de la taille de la liste")
-# plt.show()
+# plt.ylabel("temps d'union")
+# plt.title("temps d'union en fonction de la taille de la liste")
+# # plt.show()
+# plt.savefig("experiments/temps_d_union_tree.png")
 
 
 
