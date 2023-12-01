@@ -5,7 +5,9 @@ from queue import LifoQueue
 from collections import deque
 import structures as st
 
-
+# ce fichier est une sauvegarde des classes BinomialHeap et BinomialQueue sous format noeud d'entier
+# afin de pouvoir les utiliser dans le fichier testBinomialQueue.py pour tester les fonctions de la classe BinomialQueue
+# sans avoir à importer les fonctions de structures.py qui son pas evident a manipuler
 class BinomialNode:
     def __init__(self, key):
         self.key = key
@@ -60,7 +62,7 @@ class BinomialHeap:
         return self.root.key
     
     def _ajout_iteratif(self, list_values):
-        list_values = deque(self.quickListCle128(list_values))
+        list_values = deque(sorted(list_values))
         if len(list_values) == 0:
             return
         length = len(list_values)
@@ -104,7 +106,7 @@ class BinomialHeap:
             raise ValueError("union avec un tas vide")
         if self.root.degree != other_tree.root.degree:
             raise ValueError("union avec un tas de degré différent")
-        if st.sup(self.root.key, other_tree.root.key):
+        if self.root.key > other_tree.root.key:
             self.root, other_tree.root = other_tree.root, self.root
         other_tree.root.parent = self.root
         self.root.childs.appendleft(other_tree.root)
@@ -135,7 +137,7 @@ class BinomialHeap:
         for child in copybinomialQueue.root.childs:
             binomialHeapChild = BinomialHeap()
             binomialHeapChild.init(child)
-            if st.inf(child.key, binomialQueue.minimum.root.key):
+            if child.key < binomialQueue.minimum.root.key:
                 binomialQueue.minimum = binomialHeapChild
             lastNode.right = binomialHeapChild
             binomialHeapChild.left = lastNode
@@ -216,7 +218,7 @@ class BinomialQueue:
             minDeg.left = self.lastNode
             self.lastNode = minDeg
             self.size += minDeg.size
-            if self.minimum is None or st.inf(minDeg.root.key, self.minimum.root.key):
+            if self.minimum is None or minDeg.root.key < self.minimum.root.key:
                 self.minimum = minDeg
         
         return self
@@ -235,7 +237,7 @@ class BinomialQueue:
         node = self.firstNode
         self.minimum = node
         while node is not None:
-            if st.inf(node.root.key, self.minimum.root.key):
+            if node.root.key < self.minimum.root.key:
                 self.minimum = node
             node = node.right
         return self
@@ -338,4 +340,3 @@ class BinomialQueue:
                 return self.reste().uFret(binomialQueue, T1.union2Tid(binomialHeap))
             if binomialHeap.degre() == T2.degre() and binomialHeap.degre() < T1.degre():
                 return binomialQueue.reste().uFret(self, T2.union2Tid(binomialHeap))
-

@@ -1,13 +1,17 @@
-from sauvegard import *
+
+
+from BinomialQueue import *
+
 
 if __name__ == '__main__':
-    binomialNode = BinomialNode(5)
+    binomialNode = BinomialNode(st.generate_key())
     print (binomialNode)
     binomialHeap = BinomialHeap()
     binomialHeap2 = BinomialHeap()
     print (binomialHeap)
-    binomialHeap._ajout_iteratif([1,2,3,4])
-    binomialHeap2._ajout_iteratif([5,6,7,8])
+    
+    binomialHeap._ajout_iteratif([st.generate_key() for _ in range(4)])
+    binomialHeap2._ajout_iteratif([st.generate_key() for _ in range(4)])
     
     print (binomialHeap)
     print (binomialHeap.degre())
@@ -22,21 +26,21 @@ if __name__ == '__main__':
     print (binomialQueue.reste())
     print ('---------ajoutMin------')
     minBinomialHeap = BinomialHeap()
-    minBinomialHeap._ajout_iteratif([8])
+    minBinomialHeap._ajout_iteratif([st.generate_key()])
     print (minBinomialHeap)
     print (binomialQueue.ajoutMin(minBinomialHeap))
     print ('----------union------------')
     newBinomialHeap1 = BinomialHeap()
-    newBinomialHeap1._ajout_iteratif([1])
+    newBinomialHeap1._ajout_iteratif([st.generate_key()])
     
     newBinomialHeap2 = BinomialHeap()
-    newBinomialHeap2._ajout_iteratif([-2,3])
+    newBinomialHeap2._ajout_iteratif([st.generate_key() for _ in range(2)])
     
     newBinomialHeap3 = BinomialHeap()
-    newBinomialHeap3._ajout_iteratif([-4,5,6,7])
+    newBinomialHeap3._ajout_iteratif([st.generate_key() for _ in range(4)])
     
     newBinomialHeap4 = BinomialHeap()
-    newBinomialHeap4._ajout_iteratif([-8,9,-10,11])
+    newBinomialHeap4._ajout_iteratif([st.generate_key() for _ in range(4)])
     
     newBinomialQueue1 = newBinomialHeap1.file()
     newBinomialQueue2 = newBinomialHeap2.file()
@@ -52,10 +56,10 @@ if __name__ == '__main__':
     print ("U1 <-> \n",res)
     
     res = res.union(newBinomialQueue3)
-    print ("U1 -> \n",res)
+    print ("U2 -> \n",res)
     
     res = newBinomialQueue3.union(newBinomialQueue4)
-    print ("U1 -> \n",res)
+    print ("U3 -> \n",res)
     
     print("----------------------supp----------------------------")
     # print (res.minimum)
@@ -66,28 +70,21 @@ if __name__ == '__main__':
     print ('---------------------ajout--------------------------------------')
     newBinomialHeap5 = BinomialHeap()
     newBinomialQueue5 = BinomialQueue()
-    newBinomialHeap5._ajout_iteratif([-13])
+    newBinomialHeap5._ajout_iteratif([st.generate_key() for _ in range(2)])
     newBinomialQueue5.ajout(newBinomialHeap5)
     print (newBinomialQueue5)
     print('--------------------------------')
     print (res)
-    # newBinomialHeap5 = BinomialHeap()
-    # newBinomialHeap5._ajout_iteratif([-114])
-    newBinomialHeap5._ajout_iteratif([-13, 14])
     res.ajout(newBinomialHeap5)
     # res.ajout(newBinomialHeap5)
     print (res)
     
     print ('---------------------construction--------------------------------------')
     newBinomialQueue = BinomialQueue()
-    newBinomialQueue.construction([1, 2, 3, 4, -5, 6, -7, 8, 9, -10, 11, 12, 13, 14, 15])
+    liste = [st.generate_key() for _ in range(4)]
+    print (liste)
+    print('--')
+    newBinomialQueue.construction(liste)
     
     print (newBinomialQueue)
     
-
-    print ('---------------------quickListCle128--------------------------------------')
-    listCle128 = [st.generate_key(), st.generate_key()]
-    print (listCle128)
-    print (binomialHeap.quickListCle128(listCle128))
-    print (listCle128[0])
-    print (listCle128[1]) 
