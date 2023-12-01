@@ -26,6 +26,12 @@ class BinomialHeap:
     #     self.left = None
     #     self.right = None
         
+    def __init__(self):
+        self.root = None
+        self.size = 0
+        self.left = None
+        self.right = None
+
     def __str__(self):
         descrition =  "Heap -> root: " + str(self.root) + ", size: " + str(self.size) + ", left: "
         if self.left is None:
@@ -38,15 +44,10 @@ class BinomialHeap:
         else:
             descrition += str(self.right.root.key)
         return descrition
-
-    def __init__(self):
-        self.root = None
-        self.size = 0
-        self.left = None
-        self.right = None
         
     def estVide(self):
         return self.root is None
+    
     def init(self, node):
         self.root = node
         self.size = 2 ** node.degree
@@ -58,7 +59,7 @@ class BinomialHeap:
         return self.root.key
     
     def _ajout_iteratif(self, list_values):
-        list_values = deque(list_values)
+        list_values = deque(sorted(list_values))
         if len(list_values) == 0:
             return
         length = len(list_values)
@@ -66,6 +67,8 @@ class BinomialHeap:
         self.size = length
         self.root.degree = int(log2(length))
         self.__ajout(self.root, list_values, self.root.degree)
+        
+        return self
     
     def __ajout(self, node, list_values, degree):
         if degree == 0:
@@ -77,14 +80,20 @@ class BinomialHeap:
                 child.parent = node
                 node.childs.append(child)
                 self.__ajout(child, list_values, degree - i - 1)
+        
+        return self
                 
         
-    def _heapify(self, node):
-        while node.parent is not None and st.sup(node.parent.value , node.value):
-            self._swap(node, node.parent)
-            node = node.parent
+    def (self, list_values):
+        
             
     def union2Tid(self, other_tree):
+        if other_tree is None:
+            raise ValueError("union avec un tas vide")
+        if self.root.degree != other_tree.root.degree:
+            raise ValueError("union avec un tas de degré différent")
+        if self.root.key > other_tree.root.key:
+            self.root, other_tree.root = other_tree.root, self.root
         other_tree.root.parent = self.root
         self.root.childs.appendleft(other_tree.root)
         self.root.degree += 1
@@ -204,16 +213,31 @@ class BinomialQueue:
     def supprMin(self):
         if self.minimum is None:
             raise ValueError("suppression min sur un tournoi vide")
-        self.size -= self.minimum.size
-        binomialQueue = self.minimum.decapite()
-        self.reste()
-        return self.union(self, binomialQueue)
+        res = self.removeNode(self.minimum).union(self.minimum.decapite())
+        # replace self with res of union
+        self.minimum = res.minimum
+        self.firstNode = res.firstNode
+        self.lastNode = res.lastNode
+        self.size = res.size
+        # update minimum
+        node = self.firstNode
+        self.minimum = node
+        while node is not None:
+            if node.root.key < self.minimum.root.key:
+                self.minimum = node
+            node = node.right
+        return self
     
     ''' cette fonction ajoute un tournoi binomial a la file '''
-    def ajout(self, binomialHeap):
+    def ajout(self, binomialHeap):        
         if binomialHeap is None:
             raise ValueError("ajout d'un tournoi vide")
-        return self.union(self, binomialHeap.file())
+        res = self.union(binomialHeap.file())
+        self.firstNode = res.firstNode
+        self.lastNode = res.lastNode
+        self.minimum = res.minimum
+        self.size = res.size
+        return self
         
 
     # def ajout(self, binomialHeap):
@@ -249,6 +273,16 @@ class BinomialQueue:
     #                 self.firstNode = binomialHeap
         # 
         # return self
+    
+    def construction(self, list):
+        for value in list:
+            binomialHeap = BinomialHeap()
+            res = self.ajout(binomialHeap._ajout_iteratif([value]))
+            self.firstNode = res.firstNode
+            self.lastNode = res.lastNode
+            self.minimum = res.minimum
+            self.size = res.size
+        return self
     
     ''' cette fonction permet de fusionner cette file avec une autre file '''
     def union(self, binomialQueue):
@@ -287,7 +321,7 @@ class BinomialQueue:
             if binomialHeap.degre() < T1.degre() and binomialHeap.degre() < T2.degre():
                 return self.union(binomialQueue).ajoutMin(binomialHeap)
             if binomialHeap.degre() == T1.degre() and binomialHeap.degre() == T2.degre():
-                return self.reste().uFret(binomialQueue.reste(), T1.union2Tid(T2)).ajouter(binomialHeap)
+                return self.reste().uFret(binomialQueue.reste(), T1.union2Tid(T2)).ajout(binomialHeap)
             if binomialHeap.degre() == T1.degre() and binomialHeap.degre() < T2.degre():
                 return self.reste().uFret(binomialQueue, T1.union2Tid(binomialHeap))
             if binomialHeap.degre() == T2.degre() and binomialHeap.degre() < T1.degre():
