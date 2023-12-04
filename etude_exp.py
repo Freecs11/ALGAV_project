@@ -1,11 +1,14 @@
 import os
+import time
 import md5
 import tree_search
 import matplotlib.pyplot as plt
 import numpy as np
 import structures as st
+import algos
 
 
+# ex 6.14 
 tree = tree_search.search_tree()
 words = []
 unique_words = []
@@ -52,3 +55,50 @@ print("unique words = " + str(len(unique_words)))
 print("words len = " + str(len(words)))
 # print(words)
 print("words in collision = " + str(len(words_in_collision)))
+
+
+
+
+# Question 6.16 Comparer graphiquement les temps d’exécution des algorithmes SupprMin, Ajout,
+# Construction, Union pour les deux types de structure de données : tas min et files binomiales sur les
+# données extraites de la question 6.14.
+def ex_Ajout_heap():
+    heap = algos.MinHeapTable()
+    data_as_list = tree.toList()
+    times = []
+    for i in range(len(data_as_list)):
+        start = time.time()
+        heap.ajout(data_as_list[i])
+        end = time.time()
+        times.append(end - start)
+    return times
+
+lst_times = ex_Ajout_heap()
+# reset plot
+plt.clf()
+plt.plot(lst_times)
+plt.ylabel('time')
+plt.xlabel('number of elements')
+plt.title('Ajout heap')
+plt.savefig('experiments/etude_exp/Ajout_heap_etude_exp.png')
+
+def ex_SupprMin_heap():
+    data_as_list = tree.toList()
+    heap = algos.build_heap_table(data_as_list)
+    times = []
+    for i in range(len(data_as_list)):
+        start = time.time()
+        heap._suppmin()
+        end = time.time()
+        times.append(end - start)
+    return times
+
+lst_times = ex_SupprMin_heap()
+plt.clf()
+plt.plot(lst_times)
+plt.ylabel('time')
+plt.xlabel('number of elements')
+plt.title('SupprMin heap')
+# plt.show()
+plt.savefig('experiments/etude_exp/SupprMin_heap_etude_exp.png')
+

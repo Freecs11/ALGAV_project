@@ -66,3 +66,15 @@ class search_tree:
             return True
         else:
             return False
+    
+    def toList(self):
+        if self.root != None:
+            return self._toList(self.root)
+        else:
+            return []
+    # retourne une liste triée des clés de l'arbre et c'est un parcours infixe en O(n)
+    def _toList(self, cur_node):
+        if cur_node != None:
+            return self._toList(cur_node.left) + [cur_node.key] + self._toList(cur_node.right)
+        else:
+            return []
