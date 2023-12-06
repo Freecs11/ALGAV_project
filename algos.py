@@ -171,7 +171,7 @@ class MinHeapBinaryTree:
         return self
 
 
-exem = MinHeapBinaryTree()
+# exem = MinHeapBinaryTree()
 listofvalues = st.treat_from_file("cles_alea/jeu_1_nb_cles_1000.txt")
 # listofvalues2 = st.treat_from_file("cles_alea/jeu_2_nb_cles_1000.txt")
 # exem.ajout_iteratif(listofvalues)
@@ -320,8 +320,8 @@ class MinHeapTable:
 
 
 
-ex =  MinHeapTable()
-ex.construction(listofvalues)
+# ex =  MinHeapTable()
+# ex.construction(listofvalues)
 # ex.print_heap()
 # print("last element : " + str(ex.heap[ex.size-1]) + "\n\n")
 # print("min : " +str(ex._suppmin()) + "\n\n")
