@@ -63,20 +63,6 @@ class MinHeapBinaryTree:
             else:
                 break
     
-    def minHeap(self) : 
-        if self.root is None:
-            return None
-        self._minHeap(self.root)
-        
-    def _minHeap(self, node):
-        if node is None:
-            return None
-        self._minHeap(node.left)
-        self._minHeap(node.right)
-        self._heapify_down(node)
-        
-        
-    
     def _swap(self, node1, node2):
         nodeheight1 = node1.height
         nodeheight2 = node2.height
