@@ -158,12 +158,12 @@ class MinHeapBinaryTree:
             if 2*i+1 < len(nodes):
                 nodes[i].left = nodes[2*i+1]
                 nodes[2*i+1].parent = nodes[i]
-                nodes[2*i+1].hight = nodes[i].hight + 1
+                nodes[2*i+1].height = nodes[i].height + 1
                 self.root.deepest = nodes[2*i+1]
             if 2*i+2 < len(nodes):
                 nodes[i].right = nodes[2*i+2]
                 nodes[2*i+2].parent = nodes[i]
-                nodes[2*i+2].hight = nodes[i].hight + 1
+                nodes[2*i+2].height = nodes[i].height + 1
                 self.root.deepest = nodes[2*i+2]
         # Heapify the tree
         for i in range(len(nodes)//2, -1, -1):
@@ -425,53 +425,53 @@ list_of_sizes = [1000, 5000 ,10000, 20000, 50000, 80000, 120000 ,200000]
 # plt.savefig("experiments/temps_de_construction_tree.png")
 
 
-def moyenne_temps_suppression_table(list_of_sizes):
-    list_of_times = []
-    for size in list_of_sizes:
-        list_of_times_for_size = []
-        for i in range(1,6):
-            list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
-            heap = MinHeapTable()
-            heap._ajout_iteratif(list_of_values)
-            start_time = time.time()
-            heap._suppmin()
-            end_time = time.time()
-            list_of_times_for_size.append(end_time - start_time)
-        list_of_times.append(np.mean(list_of_times_for_size))
-    return list_of_times
-
-list_of_times = moyenne_temps_suppression_table(list_of_sizes)
-plt.clf()
-plt.plot(list_of_sizes, list_of_times)
-plt.xlabel("taille de la lste")
-plt.ylabel("temps de suppression")
-plt.title("temps de suppression en fonction de la taille de la liste")
-# plt.show()
-plt.savefig("experiments/temps_de_suppression_table.png")
-
-# def moyenne_temps_suppression_tree(list_of_sizes):
+# def moyenne_temps_suppression_table(list_of_sizes):
 #     list_of_times = []
 #     for size in list_of_sizes:
 #         list_of_times_for_size = []
 #         for i in range(1,6):
 #             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
-#             heap = MinHeapBinaryTree()
-#             heap.ajout_iteratif(list_of_values)
+#             heap = MinHeapTable()
+#             heap._ajout_iteratif(list_of_values)
 #             start_time = time.time()
-#             heap.suppmin()
+#             heap._suppmin()
 #             end_time = time.time()
 #             list_of_times_for_size.append(end_time - start_time)
 #         list_of_times.append(np.mean(list_of_times_for_size))
 #     return list_of_times
 
-# list_of_times = moyenne_temps_suppression_tree(list_of_sizes)
+# list_of_times = moyenne_temps_suppression_table(list_of_sizes)
 # plt.clf()
 # plt.plot(list_of_sizes, list_of_times)
 # plt.xlabel("taille de la lste")
 # plt.ylabel("temps de suppression")
-# plt.title("temps de suppression_tree en fonction de la taille de la liste")
+# plt.title("temps de suppression_table en fonction de la taille de la liste")
 # # plt.show()
-# plt.savefig("experiments/temps_de_suppression_tree.png")
+# plt.savefig("experiments/temps_de_suppression_table.png")
+
+def moyenne_temps_suppression_tree(list_of_sizes):
+    list_of_times = []
+    for size in list_of_sizes:
+        list_of_times_for_size = []
+        for i in range(1,6):
+            list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
+            heap = MinHeapBinaryTree()
+            heap.construction(list_of_values)
+            start_time = time.time()
+            heap.suppmin()
+            end_time = time.time()
+            list_of_times_for_size.append(end_time - start_time)
+        list_of_times.append(np.mean(list_of_times_for_size))
+    return list_of_times
+
+list_of_times = moyenne_temps_suppression_tree(list_of_sizes)
+plt.clf()
+plt.plot(list_of_sizes, list_of_times)
+plt.xlabel("taille de la lste")
+plt.ylabel("temps de suppression")
+plt.title("temps de suppression_tree en fonction de la taille de la liste")
+# plt.show()
+plt.savefig("experiments/temps_de_suppression_tree.png")
 
 
 
