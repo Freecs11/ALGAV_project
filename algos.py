@@ -490,11 +490,11 @@ def moyenne_temps_ajoutIteratif_table(list_of_sizes):
     return list_of_times
 
 list_of_times = moyenne_temps_ajoutIteratif_table(list_of_sizes)
-plt.clf()
+# plt.clf()
 plt.plot(list_of_sizes, list_of_times)
 plt.xlabel("taille de la lste")
 plt.ylabel("temps d'ajout")
-plt.title("temps d'ajout en fonction de la taille de la liste")
+plt.title("temps d'ajout_table en fonction de la taille de la liste")
 # plt.show()
 plt.savefig("experiments/temps_d_ajoutIteratif_table.png")
 
