@@ -425,29 +425,29 @@ list_of_sizes = [1000, 5000 ,10000, 20000, 50000, 80000, 120000 ,200000]
 # plt.savefig("experiments/temps_de_construction_tree.png")
 
 
-# def moyenne_temps_suppression_table(list_of_sizes):
-#     list_of_times = []
-#     for size in list_of_sizes:
-#         list_of_times_for_size = []
-#         for i in range(1,6):
-#             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
-#             heap = MinHeapTable()
-#             heap._ajout_iteratif(list_of_values)
-#             start_time = time.time()
-#             heap._suppmin()
-#             end_time = time.time()
-#             list_of_times_for_size.append(end_time - start_time)
-#         list_of_times.append(np.mean(list_of_times_for_size))
-#     return list_of_times
+def moyenne_temps_suppression_table(list_of_sizes):
+    list_of_times = []
+    for size in list_of_sizes:
+        list_of_times_for_size = []
+        for i in range(1,6):
+            list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
+            heap = MinHeapTable()
+            heap._ajout_iteratif(list_of_values)
+            start_time = time.time()
+            heap._suppmin()
+            end_time = time.time()
+            list_of_times_for_size.append(end_time - start_time)
+        list_of_times.append(np.mean(list_of_times_for_size))
+    return list_of_times
 
-# list_of_times = moyenne_temps_suppression_table(list_of_sizes)
-# plt.clf()
-# plt.plot(list_of_sizes, list_of_times)
-# plt.xlabel("taille de la lste")
-# plt.ylabel("temps de suppression")
-# plt.title("temps de suppression en fonction de la taille de la liste")
-# # plt.show()
-# plt.savefig("experiments/temps_de_suppression_table.png")
+list_of_times = moyenne_temps_suppression_table(list_of_sizes)
+plt.clf()
+plt.plot(list_of_sizes, list_of_times)
+plt.xlabel("taille de la lste")
+plt.ylabel("temps de suppression")
+plt.title("temps de suppression en fonction de la taille de la liste")
+# plt.show()
+plt.savefig("experiments/temps_de_suppression_table.png")
 
 # def moyenne_temps_suppression_tree(list_of_sizes):
 #     list_of_times = []
@@ -475,28 +475,28 @@ list_of_sizes = [1000, 5000 ,10000, 20000, 50000, 80000, 120000 ,200000]
 
 
 
-def moyenne_temps_ajoutIteratif_table(list_of_sizes):
-    list_of_times = []
-    for size in list_of_sizes:
-        list_of_times_for_size = []
-        for i in range(1,6):
-            list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
-            heap = MinHeapTable()
-            start_time = time.time()
-            heap._ajout_iteratif(list_of_values)
-            end_time = time.time()
-            list_of_times_for_size.append(end_time - start_time)
-        list_of_times.append(np.mean(list_of_times_for_size))
-    return list_of_times
+# def moyenne_temps_ajoutIteratif_table(list_of_sizes):
+#     list_of_times = []
+#     for size in list_of_sizes:
+#         list_of_times_for_size = []
+#         for i in range(1,6):
+#             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
+#             heap = MinHeapTable()
+#             start_time = time.time()
+#             heap._ajout_iteratif(list_of_values)
+#             end_time = time.time()
+#             list_of_times_for_size.append(end_time - start_time)
+#         list_of_times.append(np.mean(list_of_times_for_size))
+#     return list_of_times
 
-list_of_times = moyenne_temps_ajoutIteratif_table(list_of_sizes)
-# plt.clf()
-plt.plot(list_of_sizes, list_of_times)
-plt.xlabel("taille de la lste")
-plt.ylabel("temps d'ajout")
-plt.title("temps d'ajout_table en fonction de la taille de la liste")
-# plt.show()
-plt.savefig("experiments/temps_d_ajoutIteratif_table.png")
+# list_of_times = moyenne_temps_ajoutIteratif_table(list_of_sizes)
+# # plt.clf()
+# plt.plot(list_of_sizes, list_of_times)
+# plt.xlabel("taille de la lste")
+# plt.ylabel("temps d'ajout")
+# plt.title("temps d'ajout_table en fonction de la taille de la liste")
+# # plt.show()
+# plt.savefig("experiments/temps_d_ajoutIteratif_table.png")
 
 # def moyenne_temps_ajoutIteratif_tree(list_of_sizes):
 #     list_of_times = []
