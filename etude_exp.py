@@ -55,6 +55,7 @@ print("unique words = " + str(len(unique_words)))
 print("words len = " + str(len(words)))
 # print(words)
 print("words in collision = " + str(len(words_in_collision)))
+print(words_in_collision)
 
 
 
@@ -84,7 +85,8 @@ plt.savefig('experiments/etude_exp/Ajout_heap_etude_exp.png')
 
 def ex_SupprMin_heap():
     data_as_list = tree.toList()
-    heap = algos.build_heap_table(data_as_list)
+    heap = algos.MinHeapTable()
+    heap.construction(data_as_list)
     times = []
     for i in range(len(data_as_list)):
         start = time.time()
