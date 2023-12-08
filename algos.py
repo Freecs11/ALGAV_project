@@ -433,7 +433,7 @@ def moyenne_temps_suppression_table(list_of_sizes):
             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
             heap = MinHeapTable()
             heap.construction(list_of_values)
-            for j in range(100):
+            for j in range(500):
                 start_time = time.perf_counter()
                 heap._suppmin()
                 end_time = time.perf_counter()
@@ -458,7 +458,7 @@ def moyenne_temps_suppression_tree(list_of_sizes):
             list_of_values = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
             heap = MinHeapBinaryTree()
             heap.construction(list_of_values)
-            for j in range(100):
+            for j in range(500):
                 start_time = time.perf_counter()
                 heap.suppmin()
                 end_time = time.perf_counter()
