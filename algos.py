@@ -226,27 +226,23 @@ class MinHeapTable:
         self.heap[fpos], self.heap[spos] = self.heap[spos], self.heap[fpos]
         
     def _heapify_down(self, pos):
-        if not self.isLeaf(pos):
+        while not self.isLeaf(pos):
             leftChild = self.leftChild(pos)
             rightChild = self.rightChild(pos)
-            if rightChild < self.size and leftChild < self.size:
-                if st.inf(self.heap[leftChild], self.heap[rightChild]):
-                    if st.inf(self.heap[leftChild], self.heap[pos]):
-                        self.swap(pos, leftChild)
-                        self._heapify_down(leftChild)
-                else:
-                    if st.inf(self.heap[rightChild], self.heap[pos]):
-                        self.swap(pos, rightChild)
-                        self._heapify_down(rightChild)
-            elif leftChild < self.size:
-                if st.inf(self.heap[leftChild], self.heap[pos]):
-                    self.swap(pos, leftChild)
-                    self._heapify_down(leftChild)
-            elif rightChild < self.size:
-                if st.inf(self.heap[rightChild], self.heap[pos]):
-                    self.swap(pos, rightChild)
-                    self._heapify_down(rightChild)
-
+            smallest = pos 
+            
+            if leftChild < self.size and st.inf(self.heap[leftChild], self.heap[smallest]):
+                smallest = leftChild
+                
+            if rightChild < self.size and st.inf(self.heap[rightChild], self.heap[smallest]):
+                smallest = rightChild
+                
+            if smallest != pos:
+                self.swap(pos, smallest)
+                self._heapify_down(smallest)
+                
+            else:
+                break
     def _suppmin(self):
         if self.size == 0:
             return None
@@ -301,7 +297,6 @@ class MinHeapTable:
     #    return heap
     def construction(self, keys):
         self.heap = keys[:]
-        print("len : " + str(len(keys)))
         self.size = len(keys) 
         self.minHeap()
         return self    
