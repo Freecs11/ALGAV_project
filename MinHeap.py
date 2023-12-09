@@ -190,21 +190,6 @@ class MinHeapBinaryTree:
         return self
 
 
-# exem = MinHeapBinaryTree()
-listofvalues = st.treat_from_file("cles_alea/jeu_1_nb_cles_1000.txt")
-# listofvalues2 = st.treat_from_file("cles_alea/jeu_2_nb_cles_1000.txt")
-# exem.ajout_iteratif(listofvalues)
-# # exem.print_heap()
-
-
-
-# print("min tree : " +str(exem.suppmin()) + "\n\n") 
-# # print("last element : " + str(exem.root.deepest.value) + "\n\n")
-# print("new min tree : " +str(exem.suppmin()) + "\n\n")
-
-
-# print("verify min heap property : " + str(exem.verify_min_heap_property()) + "\n\n")
-
 class MinHeapTable:
     def __init__(self):
         self.heap = []
@@ -314,19 +299,6 @@ def Union2(heap1: MinHeapBinaryTree, heap2: MinHeapBinaryTree):
     heap = MinHeapBinaryTree()
     list_heap1 = heap1.toList()
     list_heap2 = heap2.toList()
-    list_heap = list_heap1 + list_heap2
-    heap.construction(list_heap)
+    heap.construction(list_heap1 + list_heap2)
     heap.size = heap1.size + heap2.size
     return heap
-
-# helap = MinHeapBinaryTree()
-# r = st.treat_from_file("cles_alea/jeu_1_nb_cles_200000.txt")
-# x = st.treat_from_file("cles_alea/jeu_2_nb_cles_200000.txt")
-# helap.construction(r)
-# helap2 = MinHeapBinaryTree()
-# helap2.construction(x)
-# heap4 = Union2(helap, helap2)
-# # heap4.print_heap()
-# print("verify min heap property : " + str(heap4.verify_min_heap_property()) + "\n\n")
-
-
