@@ -3,7 +3,7 @@ from functools import cmp_to_key
 from math import log2
 from queue import LifoQueue
 from collections import deque
-import structures as st
+import structures as st 
 
 
 class BinomialNode:

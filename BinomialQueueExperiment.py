@@ -5,7 +5,7 @@ from matplotlib.ticker import ScalarFormatter
 import numpy as np
 from BinomialQueue import *
 from struct import *
-
+ 
 def moyenne_temps_construction(list_of_sizes):
     list_of_times = []
     for size in list_of_sizes:
