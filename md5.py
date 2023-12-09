@@ -3,20 +3,10 @@
 #https://fr.wikipedia.org/wiki/MD5
 import math
 
-def leftrotate(x: int, c: int) -> int:
+def leftrotate(x: int, c: int) :
     return (x << c) | (x >> (32 - c))
 
 def md5(message: str) -> str:
-    """
-    Calcule l'empreinte MD5 d'un message.
-
-    Args:
-        message: Le message à hacher.
-
-    Returns:
-        L'empreinte MD5 du message.
-    """
-
     # Définition de r et k
 
     r = [7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22, 7, 12, 17, 22

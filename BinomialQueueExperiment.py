@@ -67,9 +67,6 @@ if __name__ == '__main__':
     # label = "construction"
     # nom_fichier = "binomialQueue_construction_temps.png"
     # representation_graphique(list_of_sizes, list_moyenne_temps_construction, nom_fichier, xlabel, ylabel, titre, label)    
-    
-    for i in range(1,100):
-        continue
     list_moyenne_temps_union = moyenne_temps_union(list_of_sizes)
     print (list_moyenne_temps_union)
     xlabel = "liste de taille n"

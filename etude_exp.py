@@ -5,7 +5,7 @@ import tree_search
 import matplotlib.pyplot as plt
 import numpy as np
 import structures as st
-import algos
+from MinHeap import *
 
 
 # ex 6.14 
@@ -59,22 +59,3 @@ print(words_in_collision)
 # Question 6.16 Comparer graphiquement les temps d’exécution des algorithmes SupprMin, Ajout,
 # Construction, Union pour les deux types de structure de données : tas min et files binomiales sur les
 # données extraites de la question 6.14.
-def ex_Ajout_heap():
-    heap = algos.MinHeapTable()
-    temps = []
-    list_tree = tree.toList()
-    for i in range(1, len(list_tree)):
-        start_time = time.perf_counter()
-        heap.ajout(list_tree[i])
-        end_time = time.perf_counter()
-        temps.append(end_time - start_time)
-    return temps    
-
-ed = ex_Ajout_heap()
-# ceci est en O(log n ) donc utilisez une échelle logarithmique pour le graphe avec plt.semilogy
-plt.semilogy(ed)
-plt.xlabel("n")
-plt.ylabel("temps d'execution")
-plt.title("Ajout dans un tas min")
-plt.show()
-
