@@ -21,12 +21,6 @@ class BinomialNode:
         return description+ "}\n"
 
 class BinomialHeap:
-    # def __init__(self, root_key):
-    #     self.root = BinomialNode(root_key)
-    #     self.size = 0
-    #     self.left = None
-    #     self.right = None
-        
     def __init__(self):
         self.root = None
         self.size = 0
@@ -64,46 +58,18 @@ class BinomialHeap:
     def minimum (self):
         return self.root.key
     
-    # def _ajout_iteratif(self, list_values):
-    #     list_values = deque(self.quickListCle128(list_values))
-    #     if len(list_values) == 0:
-    #         return
-    #     length = len(list_values)
-    #     self.root = BinomialNode(list_values.popleft())
-    #     self.size = length
-    #     self.root.degree = int(log2(length))
-    #     self.__ajout(self.root, list_values, self.root.degree)
+    def _ajout_iteratif(self, list_values):
+        list_values = deque(self.quickListCle128(list_values))
+        if len(list_values) == 0:
+            return
+        length = len(list_values)
+        self.root = BinomialNode(list_values.popleft())
+        self.size = length
+        self.root.degree = int(log2(length))
+        self.__ajout(self.root, list_values, self.root.degree)
         
-    #     return self
-    
-    # def __ajout(self, node, list_values, degree):
-    #     if degree == 0:
-    #         return
-    #     else:
-    #         node.degree = degree
-    #         for i in range(degree):
-    #             child = BinomialNode(list_values.popleft())
-    #             child.parent = node
-    #             node.childs.append(child)
-    #             self.__ajout(child, list_values, degree - i - 1)
-        
-    #     return self
-                
-        
-    def quickListCle128(self, list_values):
-        
-        def comparator(node1, node2):
-            if st.inf(node1, node2):
-                return -1
-            elif st.sup(node1, node2):
-                return 1
-            else:
-                return 0
-            
-        return sorted(list_values, key=cmp_to_key(comparator))
-        
-        
-            
+        return self
+          
     def union2Tid(self, other_tree):
         if other_tree is None:
             raise ValueError("union avec un tas vide")
@@ -256,41 +222,6 @@ class BinomialQueue:
         self.size = res.size
         return self
         
-
-    # def ajout(self, binomialHeap):
-    #     if binomialHeap is None:
-    #         raise ValueError("ajout d'un tournoi vide")
-        
-    #     if self.estVide():
-    #         self.firstNode = binomialHeap
-    #         self.lastNode = binomialHeap
-    #         self.minimum = binomialHeap
-    #         self.size = binomialHeap.size
-    #     elif self.lastNode.degree() > binomialHeap.degree():
-    #         self.AjoutMin(binomialHeap)
-    #     else:
-    #         node = self.firstNode
-    #         while node and node.degree() > binomialHeap.degree():
-    #             node = node.right
-            
-    #         if node.degree() == binomialHeap.degree():
-    #             self.removeNode(node) 
-    #             # on ajoute la fusion des deux tournois
-    #             binomialHeap.union2Tid(node)
-    #             self.ajout(binomialHeap)
-    #         else:
-    #             binomialHeap.left = node.left
-    #             binomialHeap.right = node
-    #             node.left.right = binomialHeap
-    #             node.left = binomialHeap
-    #             self.size += binomialHeap.size
-    #             if self.minimum is None or binomialHeap.root.key < self.minimum.root.key:
-    #                 self.minimum = binomialHeap
-    #             if binomialHeap.left is None:
-    #                 self.firstNode = binomialHeap
-        # 
-        # return self
-    
     def construction(self, list):
         for value in list:
             binomialHeap = BinomialHeap()
@@ -343,4 +274,3 @@ class BinomialQueue:
                 return self.reste().uFret(binomialQueue, T1.union2Tid(binomialHeap))
             if binomialHeap.degre() == T2.degre() and binomialHeap.degre() < T1.degre():
                 return binomialQueue.reste().uFret(self, T2.union2Tid(binomialHeap))
-

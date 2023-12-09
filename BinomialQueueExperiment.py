@@ -47,9 +47,6 @@ def representation_graphique(abscisse, ordonnee, nom_fichier, xlabe='', ylabe=''
     ax.set_title(titre)
     ax.legend()
 
-    # plt.gca().get_yaxis().get_major_formatter().set_scientific(False)
-
-
     # Sauvegarder le graphique
     plt.savefig("experiments/binomialQueue/" + nom_fichier)
 
