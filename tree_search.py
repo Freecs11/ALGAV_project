@@ -10,6 +10,7 @@ class node:
         self.left = None
         self.right = None
         self.parent = None
+        self.height = 0
 
 class search_tree:
     
@@ -29,6 +30,7 @@ class search_tree:
             if cur_node.left == None:
                 cur_node.left = node(key)
                 cur_node.left.parent = cur_node
+                cur_node.left.height = cur_node.height + 1
                 self.size += 1
             else:
                 self._insert(key, cur_node.left)
@@ -36,6 +38,7 @@ class search_tree:
             if cur_node.right == None:
                 cur_node.right = node(key)
                 cur_node.right.parent = cur_node
+                cur_node.right.height = cur_node.height + 1
                 self.size += 1
             else:
                 self._insert(key, cur_node.right)
@@ -77,4 +80,20 @@ class search_tree:
         if cur_node != None:
             return self._toList(cur_node.left) + [cur_node.key] + self._toList(cur_node.right)
         else:
-            return []
+            return [] 
+        
+
+
+# #test
+# tree = search_tree()
+
+# for i in range(1000):
+#     tree.insert(st.generate_key())
+    
+
+# # print(tree.toList())
+# d = tree.list_of_lists()
+
+# for i in range(len(d)):
+#     print("level " + str(i) + " : ")
+#     print(d[i])

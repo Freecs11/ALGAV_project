@@ -34,11 +34,10 @@ for file in list_files:
         hashed_word_tuple = hashed_word_cle128.tobytes().hex() # les dictionnaires python accepte pas des types mutable (np.array) donc on convertit la clé en bytes puis en hexa et on le met comme tuple ( qui est immutable ) pour pouvoir l'utiliser comme clé de dictionnaire
         if not tree.search(hashed_word_cle128): # si le mot n'est pas déjà dans l'arbre
             tree.insert(hashed_word_cle128) # on l'ajoute
-            unique_words.append(word) # on l'ajoute à la liste des mots uniques
+            if word not in unique_words: # si le mot n'est pas déjà dans la liste des mots uniques
+                unique_words.append(word)
             hash_dict[hashed_word_tuple] = [word] # on ajoute le hash et le mot dans le dictionnaire
         else: 
-            if word in unique_words:  # si le mot est dans la liste des mots uniques on le supprime
-                unique_words.remove(word) 
             if hashed_word_tuple in hash_dict: # si le hash est déjà dans le dictionnaire
                 if word not in hash_dict[hashed_word_tuple]: # si le mot n'est pas déjà dans la liste de mots qui ont le même hash , c'est qu'il y a une collision, on l'ajoute donc
                     hash_dict[hashed_word_tuple].append(word)     
@@ -50,57 +49,32 @@ for key in hash_dict:
         words_in_collision.append(hash_dict[key]) # on remplit la liste des mots en collision avec les mots qui ont le même hash
 
 # print(unique_words)
-print("unique words = " + str(len(unique_words)))
+print("unique words = " + str(len(unique_words))) # 8471
     
-print("words len = " + str(len(words)))
+print("words len = " + str(len(words))) # 905534
 # print(words)
-print("words in collision = " + str(len(words_in_collision)))
+print("words in collision = " + str(len(words_in_collision))) # 0
 print(words_in_collision)
-
-
-
 
 # Question 6.16 Comparer graphiquement les temps d’exécution des algorithmes SupprMin, Ajout,
 # Construction, Union pour les deux types de structure de données : tas min et files binomiales sur les
 # données extraites de la question 6.14.
 def ex_Ajout_heap():
     heap = algos.MinHeapTable()
-    data_as_list = tree.toList()
-    times = []
-    for i in range(len(data_as_list)):
-        start = time.time()
-        heap.ajout(data_as_list[i])
-        end = time.time()
-        times.append(end - start)
-    return times
+    temps = []
+    list_tree = tree.toList()
+    for i in range(1, len(list_tree)):
+        start_time = time.perf_counter()
+        heap.ajout(list_tree[i])
+        end_time = time.perf_counter()
+        temps.append(end_time - start_time)
+    return temps    
 
-lst_times = ex_Ajout_heap()
-# reset plot
-plt.clf()
-plt.plot(lst_times)
-plt.ylabel('time')
-plt.xlabel('number of elements')
-plt.title('Ajout heap')
-plt.savefig('experiments/etude_exp/Ajout_heap_etude_exp.png')
-
-def ex_SupprMin_heap():
-    data_as_list = tree.toList()
-    heap = algos.MinHeapTable()
-    heap.construction(data_as_list)
-    times = []
-    for i in range(len(data_as_list)):
-        start = time.time()
-        heap._suppmin()
-        end = time.time()
-        times.append(end - start)
-    return times
-
-lst_times = ex_SupprMin_heap()
-plt.clf()
-plt.plot(lst_times)
-plt.ylabel('time')
-plt.xlabel('number of elements')
-plt.title('SupprMin heap')
-# plt.show()
-plt.savefig('experiments/etude_exp/SupprMin_heap_etude_exp.png')
+ed = ex_Ajout_heap()
+# ceci est en O(log n ) donc utilisez une échelle logarithmique pour le graphe avec plt.semilogy
+plt.semilogy(ed)
+plt.xlabel("n")
+plt.ylabel("temps d'execution")
+plt.title("Ajout dans un tas min")
+plt.show()
 
