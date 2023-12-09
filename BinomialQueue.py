@@ -49,6 +49,11 @@ class BinomialHeap:
     def estVide(self):
         return self.root is None
     
+    def ajout (self, key):
+            self.root = BinomialNode(key)
+            self.size = 1
+            return self
+        
     def init(self, node):
         self.root = node
         self.size = 2 ** node.degree
@@ -59,30 +64,30 @@ class BinomialHeap:
     def minimum (self):
         return self.root.key
     
-    def _ajout_iteratif(self, list_values):
-        list_values = deque(self.quickListCle128(list_values))
-        if len(list_values) == 0:
-            return
-        length = len(list_values)
-        self.root = BinomialNode(list_values.popleft())
-        self.size = length
-        self.root.degree = int(log2(length))
-        self.__ajout(self.root, list_values, self.root.degree)
+    # def _ajout_iteratif(self, list_values):
+    #     list_values = deque(self.quickListCle128(list_values))
+    #     if len(list_values) == 0:
+    #         return
+    #     length = len(list_values)
+    #     self.root = BinomialNode(list_values.popleft())
+    #     self.size = length
+    #     self.root.degree = int(log2(length))
+    #     self.__ajout(self.root, list_values, self.root.degree)
         
-        return self
+    #     return self
     
-    def __ajout(self, node, list_values, degree):
-        if degree == 0:
-            return
-        else:
-            node.degree = degree
-            for i in range(degree):
-                child = BinomialNode(list_values.popleft())
-                child.parent = node
-                node.childs.append(child)
-                self.__ajout(child, list_values, degree - i - 1)
+    # def __ajout(self, node, list_values, degree):
+    #     if degree == 0:
+    #         return
+    #     else:
+    #         node.degree = degree
+    #         for i in range(degree):
+    #             child = BinomialNode(list_values.popleft())
+    #             child.parent = node
+    #             node.childs.append(child)
+    #             self.__ajout(child, list_values, degree - i - 1)
         
-        return self
+    #     return self
                 
         
     def quickListCle128(self, list_values):
@@ -289,7 +294,7 @@ class BinomialQueue:
     def construction(self, list):
         for value in list:
             binomialHeap = BinomialHeap()
-            res = self.ajout(binomialHeap._ajout_iteratif([value]))
+            res = self.ajout(binomialHeap.ajout(value))
             self.firstNode = res.firstNode
             self.lastNode = res.lastNode
             self.minimum = res.minimum
