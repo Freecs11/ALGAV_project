@@ -82,31 +82,11 @@ class search_tree:
         else:
             return []
         
-    # retourne une liste de listes des clés de l'arbre , on veut des liste de taille fixe ( 1000 , 5000 , 10000 , 20000 , 50000 , 80000 , 120000 , 200000 ) et c'est un parcours en largeur en O(n
-    def list_of_lists(self):
-        if self.root != None:
-            return self._list_of_lists(self.root)
-        else:
-            return []
         
-    def _list_of_lists(self, cur_node):
-        list_of_lists = []
-        list_of_nodes = []
-        list_of_nodes.append(cur_node)
-        while len(list_of_nodes) > 0:
-            list_of_lists.append([node.key for node in list_of_nodes])
-            list_of_nodes_temp = []
-            for node in list_of_nodes:
-                if node.left != None:
-                    list_of_nodes_temp.append(node.left)
-                if node.right != None:
-                    list_of_nodes_temp.append(node.right)
-            list_of_nodes = list_of_nodes_temp
-        return list_of_lists
         
 
 
-# #test
+# test
 # tree = search_tree()
 
 # for i in range(1000):
@@ -118,4 +98,6 @@ class search_tree:
 
 # for i in range(len(d)):
 #     print("level " + str(i) + " : ")
+#     print("size = " + str(len(d[i])))
 #     print(d[i])
+    

@@ -1,25 +1,41 @@
 
-# def moyenne_temps_union_table(list_of_sizes):
-#     list_of_times = []
-#     for size in list_of_sizes:
-#         list_of_times_for_size = []
-#         for i in range(1,5 , 2):
-#             list_of_values1 = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
-#             list_of_values2 = st.treat_from_file("cles_alea/jeu_"+str(i+1)+"_nb_cles_"+str(size)+".txt")
-#             heap1 = build_heap_tree(list_of_values1)
-#             heap2 = build_heap_tree(list_of_values2)
-#             start_time = time.time()
-#             Union2(heap1, heap2)
-#             end_time = time.time()
-#             list_of_times_for_size.append(end_time - start_time)
-#         list_of_times.append(np.mean(list_of_times_for_size))
-#     return list_of_times
+# def moyenne_temps_ajout(list_of_values):
+#     list_of_times_heaptable = []
+#     list_of_times_binomialQueue = []
+#     list_of_times_heaptree = []
+#     heaptable = MinHeapTable()
+#     binomialQueue = BinomialQueue()
+#     heaptree = MinHeapBinaryTree()
+#     for i in list_of_values:
+#         start_time = time.perf_counter()
+#         heaptable.ajout(i)
+#         end_time = time.perf_counter()
+#         list_of_times_heaptable.append(end_time - start_time)
+#         start_time = time.perf_counter()
+#         hp = BinomialHeap()
+#         hp.ajout(i)
+#         binomialQueue.ajout(hp)
+#         end_time = time.perf_counter()
+#         list_of_times_binomialQueue.append(end_time - start_time)
+#         start_time = time.perf_counter()
+#         heaptree.ajout(i)
+#         end_time = time.perf_counter()
+#         list_of_times_heaptree.append(end_time - start_time)
+#     return list_of_times_heaptable, list_of_times_binomialQueue, list_of_times_heaptree
 
-# list_of_times = moyenne_temps_union_table(list_of_sizes)
+# heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_ajout(list_tree)
+
+# # Create a list of the average times
+# avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
+
+# # Create a list of the names of the data structures
+# data_structures = ['heaptable', 'binomialQueue', 'heaptree']
 # plt.clf()
-# plt.plot(list_of_sizes, list_of_times)
-# plt.xlabel("taille de la lste")
-# plt.ylabel("temps d'union")
-# plt.title("temps d'union en fonction de la taille de la liste")
-# # plt.show()
-# plt.savefig("experiments/temps_d_union_tree.png")
+# # Create a bar chart
+# plt.bar(data_structures, avg_times)
+
+# plt.xlabel('Data Structure')
+# plt.ylabel('Average Ajout Time (seconds)')
+# plt.title("Average Ajout Time for Different Data Structures")
+
+# plt.savefig("experiments/etude_exp/temps_de_ajout.png")

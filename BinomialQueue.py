@@ -59,14 +59,13 @@ class BinomialHeap:
         return self.root.key
     
     def _ajout_iteratif(self, list_values):
-        list_values = deque(self.quickListCle128(list_values))
+        list_values = deque(list_values)
         if len(list_values) == 0:
             return
         length = len(list_values)
         self.root = BinomialNode(list_values.popleft())
         self.size = length
         self.root.degree = int(log2(length))
-        self.__ajout(self.root, list_values, self.root.degree)
         
         return self
           
