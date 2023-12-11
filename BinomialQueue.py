@@ -68,7 +68,7 @@ class BinomialHeap:
         self.root.degree = int(log2(length))
         
         return self
-          
+        
     def union2Tid(self, other_tree):
         if other_tree is None:
             raise ValueError("union avec un tas vide")
