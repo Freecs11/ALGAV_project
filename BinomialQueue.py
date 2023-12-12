@@ -59,16 +59,17 @@ class BinomialHeap:
         return self.root.key
     
     def _ajout_iteratif(self, list_values):
-        list_values = deque(list_values)
+        list_values = deque(self.quickListCle128(list_values))
         if len(list_values) == 0:
             return
         length = len(list_values)
         self.root = BinomialNode(list_values.popleft())
         self.size = length
         self.root.degree = int(log2(length))
+        self.__ajout(self.root, list_values, self.root.degree)
         
         return self
-        
+          
     def union2Tid(self, other_tree):
         if other_tree is None:
             raise ValueError("union avec un tas vide")
@@ -211,7 +212,9 @@ class BinomialQueue:
         return self
     
     ''' cette fonction ajoute un tournoi binomial a la file '''
-    def ajout(self, binomialHeap):        
+    def ajout(self, value):
+        binomialHeap = BinomialHeap()  
+        binomialHeap.ajout(value)      
         if binomialHeap is None:
             raise ValueError("ajout d'un tournoi vide")
         res = self.union(binomialHeap.file())
@@ -220,11 +223,14 @@ class BinomialQueue:
         self.minimum = res.minimum
         self.size = res.size
         return self
-        
+    
+    def ajout_iterative(self, list_values):
+        for value in list_values:
+            self.ajout(value)
+            
     def construction(self, list):
         for value in list:
-            binomialHeap = BinomialHeap()
-            res = self.ajout(binomialHeap.ajout(value))
+            res = self.ajout(value)
             self.firstNode = res.firstNode
             self.lastNode = res.lastNode
             self.minimum = res.minimum
