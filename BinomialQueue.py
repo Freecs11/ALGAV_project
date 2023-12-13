@@ -91,7 +91,7 @@ class BinomialHeap:
         binomialQueue = BinomialQueue()
         # binomialQueue.minimum = self.root
         binomialQueue.size = 2 ** self.root.degree - 1
-        copybinomialQueue = copy.deepcopy(self)
+        copybinomialQueue = self
         newBinomialHeap = BinomialHeap()
         # s'il n'y a qu'un seul noeud dans le tas
         if self.root.degree == 0:

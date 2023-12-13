@@ -12,59 +12,59 @@ from BinomialQueue import *
 
 
 # ex 6.14 
-tree = tree_search.search_tree()
-words = []
-unique_words = []
-words_in_collision = []
-hash_dict = {}
+# tree = tree_search.search_tree()
+# words = []
+# unique_words = []
+# words_in_collision = []
+# hash_dict = {}
 
 
 
-list_files = os.listdir("shakespeare")
-# print(list_files) 
+# list_files = os.listdir("shakespeare")
+# # print(list_files) 
     
-for file in list_files:
-    f = open("shakespeare/" + file , "r")
-    text = f.read()
-    words_file = text.split()
-    for word in words_file:
-        # on ajoute le mot à la liste des mots
-        words.append(word)
-        hashed = md5.md5(word) # on hash le mot
-        key1 = np.uint64(int(hashed[0:16], 16)) # on convertit les 16 premiers caractères du hash en int puis en uint64
-        key2 = np.uint64(int(hashed[16:32], 16)) # idem pour les 16 derniers caractères
-        hashed_word_cle128 = np.array(tuple((key1, key2)), dtype=st.cle128) # on crée la clé à partir de key1 et key2
-        hashed_word_tuple = hashed_word_cle128.tobytes().hex() # les dictionnaires python accepte pas des types mutable (np.array) donc on convertit la clé en bytes puis en hexa et on le met comme tuple ( qui est immutable ) pour pouvoir l'utiliser comme clé de dictionnaire
-        if not tree.search(hashed_word_cle128): # si le mot n'est pas déjà dans l'arbre
-            tree.insert(hashed_word_cle128) # on l'ajoute
-            if word not in unique_words: # si le mot n'est pas déjà dans la liste des mots uniques
-                unique_words.append(word)
-            hash_dict[hashed_word_tuple] = [word] # on ajoute le hash et le mot dans le dictionnaire
-        else: 
-            if hashed_word_tuple in hash_dict: # si le hash est déjà dans le dictionnaire
-                if word not in hash_dict[hashed_word_tuple]: # si le mot n'est pas déjà dans la liste de mots qui ont le même hash , c'est qu'il y a une collision, on l'ajoute donc
-                    hash_dict[hashed_word_tuple].append(word)     
-    # close the file
-    f.close()
+# for file in list_files:
+#     f = open("shakespeare/" + file , "r")
+#     text = f.read()
+#     words_file = text.split()
+#     for word in words_file:
+#         # on ajoute le mot à la liste des mots
+#         words.append(word)
+#         hashed = md5.md5(word) # on hash le mot
+#         key1 = np.uint64(int(hashed[0:16], 16)) # on convertit les 16 premiers caractères du hash en int puis en uint64
+#         key2 = np.uint64(int(hashed[16:32], 16)) # idem pour les 16 derniers caractères
+#         hashed_word_cle128 = np.array(tuple((key1, key2)), dtype=st.cle128) # on crée la clé à partir de key1 et key2
+#         hashed_word_tuple = hashed_word_cle128.tobytes().hex() # les dictionnaires python accepte pas des types mutable (np.array) donc on convertit la clé en bytes puis en hexa et on le met comme tuple ( qui est immutable ) pour pouvoir l'utiliser comme clé de dictionnaire
+#         if not tree.search(hashed_word_cle128): # si le mot n'est pas déjà dans l'arbre
+#             tree.insert(hashed_word_cle128) # on l'ajoute
+#             if word not in unique_words: # si le mot n'est pas déjà dans la liste des mots uniques
+#                 unique_words.append(word)
+#             hash_dict[hashed_word_tuple] = [word] # on ajoute le hash et le mot dans le dictionnaire
+#         else: 
+#             if hashed_word_tuple in hash_dict: # si le hash est déjà dans le dictionnaire
+#                 if word not in hash_dict[hashed_word_tuple]: # si le mot n'est pas déjà dans la liste de mots qui ont le même hash , c'est qu'il y a une collision, on l'ajoute donc
+#                     hash_dict[hashed_word_tuple].append(word)     
+#     # close the file
+#     f.close()
 
-for key in hash_dict:
-    if len(hash_dict[key]) > 1:
-        words_in_collision.append(hash_dict[key]) # on remplit la liste des mots en collision avec les mots qui ont le même hash
+# for key in hash_dict:
+#     if len(hash_dict[key]) > 1:
+#         words_in_collision.append(hash_dict[key]) # on remplit la liste des mots en collision avec les mots qui ont le même hash
 
-# print(unique_words)
-print("unique words = " + str(len(unique_words))) # 8471
+# # print(unique_words)
+# print("unique words = " + str(len(unique_words))) # 8471
     
-print("words len = " + str(len(words))) # 905534
-# print(words)
-print("words in collision = " + str(len(words_in_collision))) # 0
-print(words_in_collision)
+# print("words len = " + str(len(words))) # 905534
+# # print(words)
+# print("words in collision = " + str(len(words_in_collision))) # 0
+# print(words_in_collision)
 
 # Question 6.16 Comparer graphiquement les temps d’exécution des algorithmes SupprMin, Ajout,
 # Construction, Union pour les deux types de structure de données : tas min et files binomiales sur les
 # données extraites de la question 6.14.
 
-list_tree = tree.toList()
-print(str(len(list_tree)))
+# list_tree = tree.toList()
+# print(str(len(list_tree)))
 
 
 def moyenne_temps_construction(list_of_values):
@@ -186,35 +186,23 @@ def moyenne_temps_supp(list_of_values):
         list_of_times_heaptree.append(end_time - start_time)
     return list_of_times_heaptable, list_of_times_binomialQueue, list_of_times_heaptree
 
-heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_supp(list_tree)
+# heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_supp(list_tree)
 
-# Create a list of the average times
-avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
-avg_times2 = [avg_times[0], avg_times[2]]
+# # Create a list of the average times
+# avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
 
+# # Create a list of the names of the data structures
+# data_structures = ['heaptable', 'binomialQueue', 'heaptree']
 
-# Create a list of the names of the data structures
-data_structures = ['heaptable', 'binomialQueue', 'heaptree']
-data_structures2 = [data_structures[0], data_structures[2]]
+# plt.clf()
+# # Create a bar chart
+# plt.bar(data_structures, avg_times)
 
-plt.clf()
-gs = gridspec.GridSpec(1, 2, width_ratios=[4, 2])
-ax0 = plt.subplot(gs[0])
-ax1 = plt.subplot(gs[1])
-plt.subplot(1,2,1)
-plt.title("Average SupprMin Time for Different Data Structures")
-plt.ylabel('Average SupprMin Time (seconds)')
-ax0.bar(data_structures, avg_times, width=0.3)
-plt.subplot(1,2,2)
-# space the two charts
-plt.subplots_adjust(wspace=0.9)
-ax1.bar(data_structures2, avg_times2, width=0.3)
-plt.ylabel('Average SupprMin Time (seconds)')
-plt.title("Supression Tas min")
+# plt.xlabel('Data Structure')
+# plt.ylabel('Average SupprMin Time (seconds)')
+# plt.title("Average SupprMin Time for Different Data Structures")
 
-plt.savefig("experiments/etude_exp/temps_de_supp.png")
-
-
+# plt.savefig("experiments/etude_exp/temps_de_supp.png")
 
 
 def moyenne_temps_union(list_of_values):
@@ -250,26 +238,26 @@ def moyenne_temps_union(list_of_values):
     list_of_times_heaptree.append(endtime - starttime)
     return list_of_times_heaptable, list_of_times_binomialQueue, list_of_times_heaptree
 
-heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_union(list_tree)
+# heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_union(list_tree)
 
-# Create a list of the average times
-avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
-avg_sub_times = [avg_times[1]]
-# Create a list of the names of the data structures
-data_structures = ['heaptable', 'binomialQueue', 'heaptree']
-data_sub_structures = ['binomialQueue']
-plt.clf()
-gride = gridspec.GridSpec(1, 2, width_ratios=[4, 1])
-ax0 = plt.subplot(gride[0])
-ax1 = plt.subplot(gride[1])
-plt.subplot(1,2,1)
-plt.title("Union Operation")
-plt.ylabel("Time(s)")
-ax0.bar (data_structures, avg_times, width=0.3)
-plt.subplot(1,2,2)
-ax1.bar (data_sub_structures, avg_sub_times, width=0.3)
-plt.ylabel("Time(s)")
-plt.title("Average Union Time for Binomial Queue")
-# plt.show()
+# # Create a list of the average times
+# avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
+# avg_sub_times = [avg_times[1]]
+# # Create a list of the names of the data structures
+# data_structures = ['heaptable', 'binomialQueue', 'heaptree']
+# data_sub_structures = ['binomialQueue']
+# plt.clf()
+# gride = gridspec.GridSpec(1, 2, width_ratios=[4, 1])
+# ax0 = plt.subplot(gride[0])
+# ax1 = plt.subplot(gride[1])
+# plt.subplot(1,2,1)
+# plt.title("Union Operation")
+# plt.ylabel("Time(s)")
+# ax0.bar (data_structures, avg_times, width=0.3)
+# plt.subplot(1,2,2)
+# ax1.bar (data_sub_structures, avg_sub_times, width=0.3)
+# plt.ylabel("Time(s)")
+# plt.title("Average Union Time for Binomial Queue")
+# # plt.show()
 
-plt.savefig("experiments/etude_exp/temps_de_union.png")
+# plt.savefig("experiments/etude_exp/temps_de_union.png")
