@@ -7,9 +7,6 @@ import numpy as np
 
 list_of_sizes = [1000, 5000 ,10000, 20000, 50000, 80000, 120000 ,200000]
 
-def format_func(value, _):
-    return f'{value:.2f}'
-
 def moyenne_temps_construction_table(list_of_sizes):
     list_of_times = []
     for size in list_of_sizes:
@@ -23,15 +20,6 @@ def moyenne_temps_construction_table(list_of_sizes):
             list_of_times_for_size.append(end_time - start_time)
         list_of_times.append(np.mean(list_of_times_for_size))
     return list_of_times
-
-# list_of_times = moyenne_temps_construction_table(list_of_sizes)
-# plt.plot(list_of_sizes, list_of_times)
-# plt.xlabel("taille de la liste")
-# plt.ylabel("temps de construction")
-# plt.title("temps de construction_table en fonction de la taille de la liste")
-# # plt.show()
-# plt.savefig("experiments/temps_de_construction_table.png")
-
 
 def moyenne_temps_construction_tree(list_of_sizes):
     list_of_times = []

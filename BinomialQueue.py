@@ -212,9 +212,8 @@ class BinomialQueue:
         return self
     
     ''' cette fonction ajoute un tournoi binomial a la file '''
-    def ajout(self, value):
-        binomialHeap = BinomialHeap()  
-        binomialHeap.ajout(value)      
+    def ajout(self, binomialHeap : BinomialHeap):
+          
         if binomialHeap is None:
             raise ValueError("ajout d'un tournoi vide")
         res = self.union(binomialHeap.file())
@@ -223,14 +222,12 @@ class BinomialQueue:
         self.minimum = res.minimum
         self.size = res.size
         return self
-    
-    def ajout_iterative(self, list_values):
-        for value in list_values:
-            self.ajout(value)
             
     def construction(self, list):
         for value in list:
-            res = self.ajout(value)
+            binomialHeap = BinomialHeap()  
+            binomialHeap.ajout(value)   
+            res = self.ajout(binomialHeap)
             self.firstNode = res.firstNode
             self.lastNode = res.lastNode
             self.minimum = res.minimum
