@@ -5,7 +5,7 @@ from matplotlib.ticker import ScalarFormatter
 import numpy as np
 from BinomialQueue import *
 from struct import *
- 
+
 def moyenne_temps_construction(list_of_sizes):
     list_of_times = []
     for size in list_of_sizes:
@@ -27,7 +27,7 @@ def moyenne_temps_union(list_of_sizes):
         for i in range(1,5 , 1):
             list_of_values1 = st.treat_from_file("cles_alea/jeu_"+str(i)+"_nb_cles_"+str(size)+".txt")
             list_of_values2 = st.treat_from_file("cles_alea/jeu_"+str(i+1)+"_nb_cles_"+str(size)+".txt")
-            for j in range(10):
+            for j in range(1):
                 binomialQueue1 = BinomialQueue()
                 binomialQueue2 = BinomialQueue()
                 binomialQueue1.construction(list_of_values1)
@@ -53,6 +53,7 @@ def representation_graphique(abscisse, ordonnee, nom_fichier, xlabe='', ylabe=''
 
     if plot:
         plt.show()
+        
 
 if __name__ == '__main__':
     
