@@ -140,10 +140,8 @@ class MinHeapBinaryTree:
         if node is None:
             return True
         if node.left is not None and st.sup(node.value , node.left.value):
-            # print("node 2: " + str(node.value) + " left : " + str(node.left.value)) 
             return False
         if node.right is not None and st.sup(node.value , node.right.value):
-            # print ("node 2: " + str(node.value) + " right : " + str(node.right.value))
             return False
         return self._verify_min_heap_property(node.left) and self._verify_min_heap_property(node.right)
     
@@ -196,16 +194,16 @@ class MinHeapTable:
         self.size = 0
         
     def parent(self, pos):
-        return (pos - 1) // 2  # Subtract 1 before dividing by 2
+        return (pos - 1) // 2  
     
     def leftChild(self, pos):
-        return 2 * pos + 1  # Add 1 after multiplying by 2
+        return 2 * pos + 1  
     
     def rightChild(self, pos):
-        return 2 * pos + 2  # Add 2 after multiplying by 2
+        return 2 * pos + 2  
     
     def isLeaf(self, pos):
-        return pos >= (self.size // 2)  # Check if pos is greater than or equal to half the size
+        return pos >= (self.size // 2)  
     
     def swap(self, fpos, spos):
         self.heap[fpos], self.heap[spos] = self.heap[spos], self.heap[fpos]
@@ -250,7 +248,7 @@ class MinHeapTable:
             current = self.parent(current)
     
     def minHeap(self):
-        for pos in range((self.size // 2) - 1, -1, -1):  # goes from half of the size to 0 
+        for pos in range((self.size // 2) - 1, -1, -1):  
             self._heapify_down(pos)
             
     def _ajout_iteratif(self, list_values):

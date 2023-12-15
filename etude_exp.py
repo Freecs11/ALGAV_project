@@ -10,6 +10,7 @@ import structures as st
 from MinHeap import *
 from BinomialQueue import *
 
+''' les experimentations de la partie 6 sont dans le jupyter ainsi que cette etudes  '''
 
 # ex 6.14 
 # tree = tree_search.search_tree()
@@ -17,8 +18,6 @@ from BinomialQueue import *
 # unique_words = []
 # words_in_collision = []
 # hash_dict = {}
-
-
 
 # list_files = os.listdir("shakespeare")
 # # print(list_files) 
@@ -89,23 +88,6 @@ def moyenne_temps_construction(list_of_values):
     return list_of_times_heaptable, list_of_times_binomialQueue, list_of_times_heaptree
 
 
-# heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_construction(list_tree)
-# # Create a list of the average times
-# avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
-
-# # Create a list of the names of the data structures
-# data_structures = ['heaptable', 'binomialQueue', 'heaptree']
-
-# plt.clf()
-# # Create a bar chart
-# plt.bar(data_structures, avg_times)
-
-# plt.xlabel('Data Structure')
-# plt.ylabel('Average Construction Time (seconds)')
-# plt.title("Average Construction Time for Different Data Structures")
-
-# plt.savefig("experiments/etude_exp/temps_de_construction.png")
-# # plt.show()
 
 
 def moyenne_temps_ajout(list_of_values):
@@ -138,26 +120,6 @@ def moyenne_temps_ajout(list_of_values):
                
     return list_of_times_heaptable, list_of_times_binomialQueue, list_of_times_heaptree
 
-
-# heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_ajout(list_tree)
-# # Create a list of the average times
-# avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
-
-# # Create a list of the names of the data structures
-# data_structures = ['heaptable', 'binomialQueue', 'heaptree']
-
-# plt.clf()
-# # Create a bar chart
-# plt.bar(data_structures, avg_times)
-
-# plt.xlabel('Data Structure')
-# plt.ylabel('Average Ajout Time (seconds)')
-# plt.title("Average Ajout Time for Different Data Structures")
-
-# plt.savefig("experiments/etude_exp/temps_de_ajout.png")
-# plt.show()
-
-
 def moyenne_temps_supp(list_of_values):
     list_of_times_heaptable = []
     list_of_times_binomialQueue = []
@@ -165,7 +127,6 @@ def moyenne_temps_supp(list_of_values):
     heaptable = MinHeapTable()
     binomialQueue = BinomialQueue()
     heaptree = MinHeapBinaryTree()
-    # for i in range(len(list_of_values)):
     heaptable.construction(list_of_values)
     for i in range(1):
         start_time = time.perf_counter()
@@ -185,25 +146,6 @@ def moyenne_temps_supp(list_of_values):
         end_time = time.perf_counter()
         list_of_times_heaptree.append(end_time - start_time)
     return list_of_times_heaptable, list_of_times_binomialQueue, list_of_times_heaptree
-
-# heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_supp(list_tree)
-
-# # Create a list of the average times
-# avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
-
-# # Create a list of the names of the data structures
-# data_structures = ['heaptable', 'binomialQueue', 'heaptree']
-
-# plt.clf()
-# # Create a bar chart
-# plt.bar(data_structures, avg_times)
-
-# plt.xlabel('Data Structure')
-# plt.ylabel('Average SupprMin Time (seconds)')
-# plt.title("Average SupprMin Time for Different Data Structures")
-
-# plt.savefig("experiments/etude_exp/temps_de_supp.png")
-
 
 def moyenne_temps_union(list_of_values):
     list_of_times_heaptable = []
@@ -237,27 +179,3 @@ def moyenne_temps_union(list_of_values):
     endtime = time.perf_counter()
     list_of_times_heaptree.append(endtime - starttime)
     return list_of_times_heaptable, list_of_times_binomialQueue, list_of_times_heaptree
-
-# heaptable_times, binomialQueue_times, heaptree_times = moyenne_temps_union(list_tree)
-
-# # Create a list of the average times
-# avg_times = [np.mean(heaptable_times), np.mean(binomialQueue_times), np.mean(heaptree_times)]
-# avg_sub_times = [avg_times[1]]
-# # Create a list of the names of the data structures
-# data_structures = ['heaptable', 'binomialQueue', 'heaptree']
-# data_sub_structures = ['binomialQueue']
-# plt.clf()
-# gride = gridspec.GridSpec(1, 2, width_ratios=[4, 1])
-# ax0 = plt.subplot(gride[0])
-# ax1 = plt.subplot(gride[1])
-# plt.subplot(1,2,1)
-# plt.title("Union Operation")
-# plt.ylabel("Time(s)")
-# ax0.bar (data_structures, avg_times, width=0.3)
-# plt.subplot(1,2,2)
-# ax1.bar (data_sub_structures, avg_sub_times, width=0.3)
-# plt.ylabel("Time(s)")
-# plt.title("Average Union Time for Binomial Queue")
-# # plt.show()
-
-# plt.savefig("experiments/etude_exp/temps_de_union.png")

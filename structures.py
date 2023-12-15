@@ -43,11 +43,7 @@ def treat_from_file(filename):
             cle = np.array((key1, key2), dtype=cle128)
             cle128_list.append(cle)
 
-    # for cle in cle128_list:
-    #     print(cle)
-        
     return cle128_list
-
 
 if __name__ == "__main__":
     cl = generate_key()
@@ -59,12 +55,3 @@ if __name__ == "__main__":
     
     treat_from_file("cles_alea/jeu_1_nb_cles_1000.txt")
     treat_from_file("cles_alea/jeu_2_nb_cles_1000.txt")
-
-
-
-
-
-
-
-
-

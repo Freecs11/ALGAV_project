@@ -1,6 +1,4 @@
 #  Arbre de Recherche
-# Implémenter une structure arborescente de recherche permettant, en moyenne, de savoir si un élément est contenu dans la structure de données en O(log n) comparaisons, où n est le nombre de clés
-# stockées. On rappelle que les clés seront codées sur 128 bits
 import structures as st
 
 class node:
@@ -75,29 +73,9 @@ class search_tree:
             return self._toList(self.root)
         else:
             return []
-    # retourne une liste triée des clés de l'arbre et c'est un parcours infixe en O(n)
     def _toList(self, cur_node):
         if cur_node != None:
             return self._toList(cur_node.left) + [cur_node.key] + self._toList(cur_node.right)
         else:
             return []
         
-        
-        
-
-
-# test
-# tree = search_tree()
-
-# for i in range(1000):
-#     tree.insert(st.generate_key())
-    
-
-# # print(tree.toList())
-# d = tree.list_of_lists()
-
-# for i in range(len(d)):
-#     print("level " + str(i) + " : ")
-#     print("size = " + str(len(d[i])))
-#     print(d[i])
-    

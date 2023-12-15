@@ -1,7 +1,6 @@
 import time
 from matplotlib import pyplot as plt
 from matplotlib.ticker import ScalarFormatter
-
 import numpy as np
 from BinomialQueue import *
 from struct import *
@@ -67,12 +66,12 @@ if __name__ == '__main__':
     # nom_fichier = "binomialQueue_construction_temps.png"
     # representation_graphique(list_of_sizes, list_moyenne_temps_construction, nom_fichier, xlabel, ylabel, titre, label)    
     
-    list_moyenne_temps_union = moyenne_temps_union(list_of_sizes)
-    print (list_moyenne_temps_union)
-    xlabel = "liste de taille n"
-    ylabel = "temps d'union en secondes"
-    titre = "Temps d'execution de l'union de deux fils binomiaux \n en fonction de la taille de la liste"
-    label = "union"
-    nom_fichier = "binomialQueue_union_temps.png"
-    representation_graphique(list_of_sizes, list_moyenne_temps_union, nom_fichier, xlabel, ylabel, titre, label, True)
+    # list_moyenne_temps_union = moyenne_temps_union(list_of_sizes)
+    # print (list_moyenne_temps_union)
+    # xlabel = "liste de taille n"
+    # ylabel = "temps d'union en secondes"
+    # titre = "Temps d'execution de l'union de deux fils binomiaux \n en fonction de la taille de la liste"
+    # label = "union"
+    # nom_fichier = "binomialQueue_union_temps.png"
+    # representation_graphique(list_of_sizes, list_moyenne_temps_union, nom_fichier, xlabel, ylabel, titre, label, True)
     

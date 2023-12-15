@@ -89,7 +89,6 @@ class BinomialHeap:
 
     def decapite(self):
         binomialQueue = BinomialQueue()
-        # binomialQueue.minimum = self.root
         binomialQueue.size = 2 ** self.root.degree - 1
         copybinomialQueue = self
         newBinomialHeap = BinomialHeap()
@@ -276,3 +275,4 @@ class BinomialQueue:
                 return self.reste().uFret(binomialQueue, T1.union2Tid(binomialHeap))
             if binomialHeap.degre() == T2.degre() and binomialHeap.degre() < T1.degre():
                 return binomialQueue.reste().uFret(self, T2.union2Tid(binomialHeap))
+            
